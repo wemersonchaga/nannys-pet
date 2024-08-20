@@ -1,0 +1,7 @@
+{
+  "build": {
+    "functions": "functions/",
+    "ignore": ["README.md", "LICENSE"],
+    "base": "/"
+  }
+}
