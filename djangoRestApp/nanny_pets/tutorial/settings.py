@@ -34,7 +34,6 @@ DATE_FORMAT = 'd/m/Y'
 
 INSTALLED_APPS = [
     'rest_framework',
-    
     'nanny_pets_app',
     'django_filters',
     'django.contrib.admin',
@@ -44,7 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
-    'drf_yasg',
 
 ]
 
@@ -62,7 +60,7 @@ MIDDLEWARE = [
 
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:80",
+    "http://localhost:4200",
     # Adicione outros domínios permitidos conforme necessário
 ]
 
@@ -93,12 +91,8 @@ WSGI_APPLICATION = 'tutorial.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'nanny-pets',
-        'USER': 'root',
-        'PASSWORD': 'Nannys2024@',
-        'HOST': 'localhost',   # ou endereço do seu banco de dados MySQL
-        'PORT': '3306',        # porta padrão do MySQL
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -146,4 +140,3 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
