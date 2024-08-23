@@ -27,5 +27,5 @@ jobs:
         pip install -r requirements.txt
     - name: Run Tests
       run: |
-        cd djangoRestApp/nanny_pets/nannys_pets_app/
+        cd djangoRestApp/nanny_pets/nanny_pets_app/
         python tests.py
