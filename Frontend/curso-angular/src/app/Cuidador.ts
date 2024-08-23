@@ -7,6 +7,7 @@ export interface Cuidador{
     sobrenome: string;
     cpf: string;
     email: string;
+    senha: string;
     data_nascimento: string;
     telefone: string;
     instagram: string;

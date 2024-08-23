@@ -11,16 +11,22 @@ import { CadastroCuidador1Component } from './pages/cadastro-cuidador1/cadastro-
 import { CadastroCuidador2Component } from './pages/cadastro-cuidador2/cadastro-cuidador2.component';
 import { CadastroCuidador3Component } from './pages/cadastro-cuidador3/cadastro-cuidador3.component';
 
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './login/signup.component';
+import { AuthGuard } from './services/auth.service';
 const routes: Routes = [
-    {path: '',component: FirstComponentComponent},
+  //{path: '',component: FirstComponentComponent},
     {path: 'home', component: HomeComponent},
+    {path: '', redirectTo: 'login', pathMatch: 'full' },
+    {path: 'login', component: LoginComponent },
+    {path: 'signup', component: SignupComponent },
     {path: 'cadastrar', component: CadastroTutor1Component},
     {path: 'cadastro-foto', component: CadastroFotoComponent},
-    {path: 'cuidadores', component: ListarCuidadoresComponent},
+    {path: 'cuidadores', component: ListarCuidadoresComponent, canActivate: [AuthGuard]},
     {path: 'cadastro-cuidador', component: CadastroCuidador1Component},
     {path: 'cadastro-cuidador-2', component: CadastroCuidador2Component},
     {path: 'cadastro-cuidador-3', component: CadastroCuidador3Component},
-    {path: 'buscar-cuidador', component: BuscarCuidadorComponent}
+    {path: 'buscar-cuidador', component: BuscarCuidadorComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

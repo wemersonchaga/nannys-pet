@@ -1,6 +1,6 @@
 
 <header>
-        <div class="menu">
+        <div class="menu" style="text-align:center">
               <a routerLink="/home"><img src="assets/img/logo.png" alt="imagem" style="float: left; width: 200px; padding: 1em;" /></a>
               <nav>
                   <a routerLink="/home">Home</a>
@@ -13,14 +13,12 @@
                         </div>
                     </div>
               </nav>
-              <a routerLink="/list"><button>Login</button></a>
-              
-        </div>
+              <a routerLink="/login"><button>Login</button></a>
+              <!--<button (click)="logout()">deslogar</button>-->
+        </div>        
 </header>   
 
 
 <router-outlet></router-outlet>
-
-
 
     

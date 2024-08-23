@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
@@ -27,9 +27,9 @@ import { BuscarCuidadorComponent } from './pages/buscar-cuidador/buscar-cuidador
 import { CadastroCuidador1Component } from './pages/cadastro-cuidador1/cadastro-cuidador1.component';
 import { CadastroCuidador2Component } from './pages/cadastro-cuidador2/cadastro-cuidador2.component';
 import { CadastroCuidador3Component } from './pages/cadastro-cuidador3/cadastro-cuidador3.component';
-
-
-
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './login/signup.component';
+import { AuthService, AuthInterceptor, AuthGuard } from './services/auth.service';
 
 
 @NgModule({
@@ -54,9 +54,8 @@ import { CadastroCuidador3Component } from './pages/cadastro-cuidador3/cadastro-
     CadastroCuidador1Component,
     CadastroCuidador2Component,
     CadastroCuidador3Component,
-    
-
-    
+    LoginComponent,
+    SignupComponent,
 
   ],
   imports: [
@@ -67,6 +66,13 @@ import { CadastroCuidador3Component } from './pages/cadastro-cuidador3/cadastro-
     ReactiveFormsModule
   ],
   providers: [
+    AuthService,
+    AuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
     provideClientHydration()
   ],
   bootstrap: [AppComponent]

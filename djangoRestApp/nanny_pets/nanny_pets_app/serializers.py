@@ -38,6 +38,7 @@ class CuidadorSerializer(serializers.ModelSerializer):
             'sobrenome',
             'data_nascimento',
             'cpf',
+            'senha',
             'email',
             'telefone',
             'rua',
@@ -58,6 +59,7 @@ class TutorSerializer(serializers.ModelSerializer):
             'sobrenome',
             'data_nascimento',
             'cpf',
-            'email'
+            'email',
+            'senha'
         )
 

@@ -8,6 +8,7 @@ class Pessoa(models.Model):
     data_nascimento = models.DateField(null=True, blank=True)
     cpf = models.CharField(max_length=100)
     email = models.CharField(max_length=100)
+    senha = models.CharField(max_length=20, null=True, blank=True)
     foto_perfil = models.ImageField(blank=True, null=True)
 
     class Meta:

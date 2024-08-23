@@ -18,6 +18,7 @@ export class CadastroCuidador1Component {
     sobrenome: '',
     cpf: '',
     email: '',
+    senha:'',
     rua: '',
     data_nascimento: '',
     telefone: '',

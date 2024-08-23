@@ -12,7 +12,7 @@ export class SharedDataService {
 
   constructor(private http: HttpClient) { }
 
-  cuidador: Cuidador = { nome: '',instagram:'', sobrenome: '', cpf: '', email: '', data_nascimento: '',cep:'',cidade:'',estado:'',numero:0,rua:'',telefone:'',
+  cuidador: Cuidador = { nome: '',instagram:'', sobrenome: '', cpf: '', email: '', senha: '', data_nascimento: '',cep:'',cidade:'',estado:'',numero:0,rua:'',telefone:'',
     caracteristicas: {
       estudante_de_veterinaria: false,
       medico_veterinario: false,

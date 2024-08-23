@@ -34,6 +34,7 @@ export class CadastroCuidador3Component {
     sobrenome: '',
     cpf: '',
     email: '',
+    senha: '',
     rua: '',
     data_nascimento: '',
     telefone: '',
