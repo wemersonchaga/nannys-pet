@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpInterceptor, HttpRequest, HttpHandler, HttpEvent,HttpHeaders } from '@angular/common/http';
 import { CanActivate, Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { tap, shareReplay } from 'rxjs/operators';
 import moment from 'moment';
 import { jwtDecode } from 'jwt-decode';
-import { Token } from '@angular/compiler';
 import { AuthResponse } from '../auth-response.model';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
 
   private apiRoot = 'http://localhost:8000/auth/';
-
   constructor(private http: HttpClient) { }
 
   private setSession(authResult: {token: string; expiresIn: number }) {
@@ -21,12 +21,23 @@ export class AuthService {
     const payload = <JWTPayload> jwtDecode(token);
     const expiresAt = moment.unix(payload.exp);
 
-    localStorage.setItem('token', authResult.token);
+    localStorage.setItem('Token', authResult.token);
     localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
-  }
+    console.log('Token:', token); // Log the token to check its value
+    try {
+      if (typeof token !== 'string') {
+          throw new Error('Token must be a string');
+      }
+      const payload = jwtDecode(token);
+      // Proceed with setting session
+      } catch (error) {
+      console.error('Error decoding token:', error);
+      // Handle the error (e.g., redirect to login, show a message)
+      }
+    }
 
-  get token(): string | null {
-    return localStorage.getItem('token');
+  public getToken() {
+    return localStorage.getItem('Token');
   }
 
   login(username: string, password: string): Observable<AuthResponse> {
@@ -39,11 +50,17 @@ export class AuthService {
     );
   }
   signup(username: string, email: string, password1: string, password2: string) {
-    // TODO: implement signup
+    return this.http.post<AuthResponse>(
+      this.apiRoot.concat('signup/'),
+      { username, email, password1, password2 }
+    ).pipe(
+      tap((response: AuthResponse) => this.setSession(response)),
+      shareReplay(),
+    );
   }
 
   logout() {
-    localStorage.removeItem('token');
+    localStorage.removeItem('Token');
     localStorage.removeItem('expires_at');
   }
 
@@ -51,7 +68,7 @@ export class AuthService {
     if (moment().isBetween(this.getExpiration().subtract(1, 'days'), this.getExpiration())) {
       return this.http.post(
         this.apiRoot.concat('refresh-token/'),
-        { token: this.token }
+        { token: this.getToken() }
       ).pipe(
         tap(response => this.setSession(response as AuthResponse)),
                 shareReplay(),
@@ -81,7 +98,7 @@ export class AuthService {
 export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('Token');
 
     if (token) {
       const cloned = req.clone({

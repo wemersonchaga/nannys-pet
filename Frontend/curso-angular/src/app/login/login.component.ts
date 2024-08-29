@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Cuidador } from '../Cuidador';
-import { FormGroup } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -49,16 +48,44 @@ export class LoginComponent {
       medicacao_injetavel: false
     }
   };
+  loginForm: FormGroup;
+
   constructor(
+    private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router) { }
-  ngOnInit() {
+    private router: Router
+  ) {
+    this.loginForm = this.fb.group({
+        username: ['', Validators.required],
+        password: ['', Validators.required],
+    });
   }
 
+  onSubmit() {
+    if (this.loginForm.valid) {
+      this.authService.login(
+        this.loginForm.get('username')!.value,
+        this.loginForm.get('password')!.value
+      ).subscribe(
+        () => this.router.navigate(['home']),
+        error => console.error(error)
+      );
+    }
+  }
+
+  
   login(username: string, password: string) {
+    // After a successful login
     this.authService.login(username, password).subscribe(
-      success => this.router.navigate(['home']),
-      error => this.error = error
+      response => {
+        const token = response.token; // Adjust based on your API response
+        localStorage.setItem('authToken', token); // Store the token as a string
+        this.router.navigate(['home']);
+      },
+      error => {
+        console.error('Login error:', error); // Log the error for debugging
+        this.error = error; // Store the error for display
+      }
     );
   }
   //login(username: string, password: string)  {

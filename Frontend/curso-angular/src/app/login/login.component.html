@@ -1,15 +1,24 @@
-<div style="text-align:center">
-    <h1>
-        Login
-    </h1>
+<div class="container">
+    <h1>Nanny's Pets</h1>
+    <div class="paw-print small" style="top: 100px; left: 150px;"></div>
+    <div class="paw-print medium" style="top: 150px; left: 200px;"></div>
+    <div class="paw-print large" style="top: 200px; left: 250px;"></div>
+    <div class="paw-print small" style="top: 250px; left: 300px;"></div>
+    <div class="paw-print medium" style="top: 300px; left: 350px;"></div>
+    <div class="paw-print large" style="top: 350px; left: 400px;"></div>
+    <div class="paw-print small" style="top: 400px; left: 450px;"></div>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div>
+            <label for="username">Usuario:</label>
+            <input type="username" id="username" formControlName="username">
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" formControlName="password">
+        </div>
+        <button type="submit">Login</button>
+    </form>
 </div>
-
-  <input #username type='text' placeholder='username'>
-  <input #password type='password' placeholder='password'>
-  <button (click)="login(username.value, password.value)">login</button>
-  <p>{{ error?.message }}</p>
-  <p *ngIf="error">{{ error?.error | json }}</p>
-
 
 
 <!--div class="d-flex justify-content-center align-items-center">

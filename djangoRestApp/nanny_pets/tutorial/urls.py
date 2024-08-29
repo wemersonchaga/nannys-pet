@@ -20,6 +20,7 @@ from django.urls import path, include
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from dj_rest_auth.urls import urlpatterns
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -41,8 +42,12 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include('nanny_pets_app.urls')), 
-    path('auth/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    #path('auth/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('auth/login/', include('dj_rest_auth.urls')),
     path('auth/refresh-token/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('auth/signup/', include('dj_rest_auth.registration.urls')),
+    path('auth/', include('dj_rest_auth.urls')),
+    path('accounts/', include('allauth.urls')),  # Include allauth URLs
 ]
 
 urlpatterns += [
