@@ -1,21 +1,50 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpInterceptor, HttpRequest, HttpHandler, HttpEvent,HttpHeaders } from '@angular/common/http';
 import { CanActivate, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject} from 'rxjs';
 import { tap, shareReplay } from 'rxjs/operators';
 import moment from 'moment';
 import { jwtDecode } from 'jwt-decode';
 import { AuthResponse } from '../auth-response.model';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private baseUrl = 'http://localhost:8000/auth/login/';  // URL da sua API de login
+  private loggedIn = new BehaviorSubject<boolean>(false);
 
-  private apiRoot = 'http://localhost:8000/auth/';
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    // Verifica se o usuário já está logado ao iniciar
+    this.loggedIn.next(!!localStorage.getItem('token'));
+  }
 
+  // Método para login
+  login(username: string, password: string): Observable<any> {
+    return this.http.post(this.baseUrl, { username, password }).pipe(
+      tap((response: any) => {
+        // Armazena o token no localStorage e atualiza o estado de login
+        localStorage.setItem('token', response.token);
+        this.loggedIn.next(true);
+      })
+    );
+  }
+
+  // Método para logout
+  logout(): void {
+    localStorage.removeItem('token');
+    this.loggedIn.next(false);
+  }
+
+  // Verifica se o usuário está logado
+  isLoggedIn(): Observable<boolean> {
+    return this.loggedIn.asObservable();
+  }
+
+  // Obtém o token de autenticação
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
   private setSession(authResult: {token: string; expiresIn: number }) {
     const token = authResult.token;
     const payload = <JWTPayload> jwtDecode(token);
@@ -36,22 +65,9 @@ export class AuthService {
       }
     }
 
-  public getToken() {
-    return localStorage.getItem('Token');
-  }
-
-  login(username: string, password: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(
-      this.apiRoot.concat('login/'),
-      { username, password }
-    ).pipe(
-      tap((response: AuthResponse) => this.setSession(response)),
-      shareReplay(),
-    );
-  }
   signup(username: string, email: string, password1: string, password2: string) {
     return this.http.post<AuthResponse>(
-      this.apiRoot.concat('signup/'),
+      this.baseUrl.concat('signup/'),
       { username, email, password1, password2 }
     ).pipe(
       tap((response: AuthResponse) => this.setSession(response)),
@@ -59,15 +75,10 @@ export class AuthService {
     );
   }
 
-  logout() {
-    localStorage.removeItem('Token');
-    localStorage.removeItem('expires_at');
-  }
-
   refreshToken(): Observable<any> {
     if (moment().isBetween(this.getExpiration().subtract(1, 'days'), this.getExpiration())) {
       return this.http.post(
-        this.apiRoot.concat('refresh-token/'),
+        this.baseUrl.concat('refresh-token/'),
         { token: this.getToken() }
       ).pipe(
         tap(response => this.setSession(response as AuthResponse)),
@@ -85,9 +96,6 @@ export class AuthService {
     return moment(0); // Return a moment object representing the epoch if no expiration is found
   }
 
-  isLoggedIn() {
-    return moment().isBefore(this.getExpiration());
-  }
 
   isLoggedOut() {
     return !this.isLoggedIn();
