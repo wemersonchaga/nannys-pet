@@ -16,24 +16,30 @@ export class AuthService {
 
   constructor(private http: HttpClient) {
     // Verifica se o usuário já está logado ao iniciar
-    this.loggedIn.next(!!localStorage.getItem('token'));
+    if (typeof window !== 'undefined' && window.localStorage) {
+      this.loggedIn.next(!!localStorage.getItem('token'));
+    }
   }
 
   // Método para login
   login(username: string, password: string): Observable<any> {
     return this.http.post(this.baseUrl, { username, password }).pipe(
       tap((response: any) => {
-        // Armazena o token no localStorage e atualiza o estado de login
-        localStorage.setItem('token', response.token);
-        this.loggedIn.next(true);
+        if (typeof window !== 'undefined' && window.localStorage) {
+          // Armazena o token no localStorage e atualiza o estado de login
+          localStorage.setItem('token', response.token);
+          this.loggedIn.next(true);
+        }
       })
     );
   }
 
   // Método para logout
   logout(): void {
-    localStorage.removeItem('token');
-    this.loggedIn.next(false);
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.removeItem('token');
+      this.loggedIn.next(false);
+    }
   }
 
   // Verifica se o usuário está logado
