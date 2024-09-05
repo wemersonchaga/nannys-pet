@@ -42,7 +42,6 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include('nanny_pets_app.urls')), 
-    #path('auth/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('auth/login/', include('dj_rest_auth.urls')),
     path('auth/refresh-token/', TokenRefreshView.as_view(), name='token_refresh'),
     path('auth/signup/', include('dj_rest_auth.registration.urls')),

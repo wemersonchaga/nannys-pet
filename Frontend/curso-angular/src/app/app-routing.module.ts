@@ -15,7 +15,6 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './login/signup.component';
 import { AuthGuard } from './services/auth.service';
 const routes: Routes = [
-  //{path: '',component: FirstComponentComponent},
     {path: 'home', component: HomeComponent},
     {path: '', redirectTo: 'login', pathMatch: 'full' },
     {path: 'login', component: LoginComponent },
