@@ -16,7 +16,7 @@ export class AuthService {
 
   constructor(private http: HttpClient) {
     // Verifica se o usuário já está logado ao iniciar
-    //this.loggedIn.next(!!localStorage.getItem('token'));
+    this.loggedIn.next(!!localStorage.getItem('token'));
   }
 
   // Método para login
