@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID} from '@angular/core';
 import { HttpClient, HttpInterceptor, HttpRequest, HttpHandler, HttpEvent,HttpHeaders } from '@angular/common/http';
 import { CanActivate, Router } from '@angular/router';
 import { Observable, BehaviorSubject} from 'rxjs';
@@ -6,6 +6,7 @@ import { tap, shareReplay } from 'rxjs/operators';
 import moment from 'moment';
 import { jwtDecode } from 'jwt-decode';
 import { AuthResponse } from '../auth-response.model';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +15,12 @@ export class AuthService {
   private baseUrl = 'http://localhost:8000/auth/login/';  // URL da sua API de login
   private loggedIn = new BehaviorSubject<boolean>(false);
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
     // Verifica se o usuário já está logado ao iniciar
-    if (typeof window !== 'undefined' && window.localStorage) {
+    if (isPlatformBrowser(this.platformId)) {
       this.loggedIn.next(!!localStorage.getItem('token'));
     }
   }
