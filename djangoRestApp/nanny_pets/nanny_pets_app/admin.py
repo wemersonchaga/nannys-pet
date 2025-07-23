@@ -1,4 +1,9 @@
 from django.contrib import admin
+from django.shortcuts import redirect
+from django.urls import path
+from django.template.response import TemplateResponse
+
+from .forms import ImagemAmbienteBatchUploadForm
 from .models import (
     Tutor, Cuidador, Pet, AvaliacaoCuidador,
     CaracteristicasCuidador, ImagemAmbiente, Pedido
@@ -91,6 +96,35 @@ class AvaliacaoCuidadorAdmin(admin.ModelAdmin):
     list_filter = ('nota',)
     search_fields = ('cuidador__nome',)
 
-@admin.register(ImagemAmbiente)
 class ImagemAmbienteAdmin(admin.ModelAdmin):
     list_display = ('cuidador', 'foto')
+    change_list_template = 'admin/imagemambiente_changelist.html'
+
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path('upload-em-lote/', self.admin_site.admin_view(self.upload_em_lote))
+        ]
+        return custom_urls + urls
+
+    def upload_em_lote(self, request):
+        context = dict(
+            self.admin_site.each_context(request),
+        )
+
+        if request.method == 'POST':
+            form = ImagemAmbienteBatchUploadForm(request.POST, request.FILES)
+            files = request.FILES.getlist('fotos')
+            if form.is_valid():
+                cuidador = form.cleaned_data['cuidador']
+                for f in files:
+                    ImagemAmbiente.objects.create(cuidador=cuidador, foto=f)
+                self.message_user(request, f"{len(files)} imagens enviadas com sucesso.")
+                return redirect('..')
+        else:
+            form = ImagemAmbienteBatchUploadForm()
+
+        context['form'] = form
+        return TemplateResponse(request, "admin/upload_em_lote.html", context)
+
+admin.site.register(ImagemAmbiente, ImagemAmbienteAdmin)
