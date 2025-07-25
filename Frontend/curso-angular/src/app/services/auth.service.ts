@@ -7,6 +7,8 @@ import { jwtDecode } from 'jwt-decode';
 import { AuthResponse } from '../auth-response.model';
 import { isPlatformBrowser } from '@angular/common';
 import { environment } from '../../environments/environment';
+import { HttpHeaders } from '@angular/common/http';
+import { throwError } from 'rxjs';
 
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -114,6 +116,19 @@ export class AuthService {
   isLoggedOut(): Observable<boolean> {
     return this.isLoggedIn().pipe(tap(loggedIn => !loggedIn));
   }
+  getUserInfo(): Observable<any> {
+    const token = localStorage.getItem('access');
+    if (!token) {
+      return throwError(() => new Error('Token não encontrado.'));
+    }
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<any>(`${this.baseUrl}/usuarios/me/`, { headers });
+  }
+
 }
 
 @Injectable()

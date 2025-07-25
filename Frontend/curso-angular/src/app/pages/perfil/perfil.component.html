@@ -1,4 +1,14 @@
-<section class="perfil-container">
-  <h1>Meu Perfil</h1>
-  <p>Aqui você poderá editar suas informações pessoais.</p>
-</section>
+<div class="perfil-container" *ngIf="userData">
+  <h2>Meu Perfil</h2>
+
+  <div class="perfil-card">
+    <img [src]="userData.avatar || 'assets/img/avatar_padrao.png'" alt="Avatar do usuário" />
+    <p><strong>Nome de usuário:</strong> {{ userData.username }}</p>
+    <p><strong>Email:</strong> {{ userData.email }}</p>
+    <p><strong>Tipo:</strong> {{ userData.tipo_usuario === 'T' ? 'Tutor' : 'Cuidador' }}</p>
+  </div>
+</div>
+
+<div class="perfil-container" *ngIf="!userData">
+  <p>Carregando informações...</p>
+</div>
