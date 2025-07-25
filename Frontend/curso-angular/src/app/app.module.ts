@@ -30,6 +30,7 @@ import { CadastroCuidador3Component } from './pages/cadastro-cuidador3/cadastro-
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './login/signup.component';
 import { AuthService, AuthInterceptor, AuthGuard } from './services/auth.service';
+import { PerfilComponent } from './pages/perfil/perfil.component';
 
 
 @NgModule({
@@ -56,6 +57,7 @@ import { AuthService, AuthInterceptor, AuthGuard } from './services/auth.service
     CadastroCuidador3Component,
     LoginComponent,
     SignupComponent,
+    PerfilComponent,
 
   ],
   imports: [

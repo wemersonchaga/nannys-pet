@@ -5,6 +5,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { CadastroTutor1Component } from './pages/cadastro-tutor1/cadastro-tutor1.component';
 import { CadastroFotoComponent } from './components/cadastro-foto/cadastro-foto.component';
 import { ListarCuidadoresComponent } from './pages/listar-cuidadores/listar-cuidadores.component';
+import { PerfilComponent } from './pages/perfil/perfil.component';
 
 import { BuscarCuidadorComponent } from './pages/buscar-cuidador/buscar-cuidador.component';
 import { CadastroCuidador1Component } from './pages/cadastro-cuidador1/cadastro-cuidador1.component';
@@ -19,6 +20,7 @@ const routes: Routes = [
     {path: 'signup', component: SignupComponent },
     {path: 'login', component: LoginComponent },
     {path: '', redirectTo: 'login', pathMatch: 'full' },
+    {path: 'perfil', component: PerfilComponent, canActivate: [AuthGuard] },
     {path: 'cadastrar', component: CadastroTutor1Component},
     {path: 'cadastro-foto', component: CadastroFotoComponent},
     {path: 'cuidadores', component: ListarCuidadoresComponent, canActivate: [AuthGuard]},
