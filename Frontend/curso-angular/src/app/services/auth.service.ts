@@ -6,6 +6,7 @@ import { tap, shareReplay } from 'rxjs/operators';
 import { jwtDecode } from 'jwt-decode';
 import { AuthResponse } from '../auth-response.model';
 import { isPlatformBrowser } from '@angular/common';
+import { environment } from '../../environments/environment';
 
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -22,7 +23,7 @@ interface JWTPayload {
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'http://localhost:8000/auth/login/';
+  private baseUrl = `${environment.apiUrl}/api`;
   private loggedIn = new BehaviorSubject<boolean>(false);
 
   constructor(
@@ -35,7 +36,7 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<any> {
-    return this.http.post(this.baseUrl, { username, password }).pipe(
+    return this.http.post(`${this.baseUrl}/login/`, { username, password }).pipe(
       tap((response: any) => {
         if (typeof window !== 'undefined' && window.localStorage) {
           localStorage.setItem('token', response.token);
@@ -78,7 +79,7 @@ export class AuthService {
 
   signup(username: string, email: string, password1: string, password2: string) {
     return this.http.post<AuthResponse>(
-      this.baseUrl.replace('login/', 'signup/'),
+      `${this.baseUrl}/register/`,
       { username, email, password1, password2 }
     ).pipe(
       tap((response: AuthResponse) => this.setSession(response)),
@@ -92,7 +93,7 @@ export class AuthService {
 
     if (now.isAfter(expiration.subtract(1, 'day')) && now.isBefore(expiration)) {
       return this.http.post(
-        this.baseUrl.replace('login/', 'refresh-token/'),
+        `${this.baseUrl}/refresh-token/`,
         { token: this.getToken() }
       ).pipe(
         tap(response => this.setSession(response as AuthResponse)),
