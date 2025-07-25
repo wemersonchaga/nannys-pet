@@ -19,7 +19,7 @@ export class HomeComponent {
   }
 
   navigateToCadastroTutor(){
-    this.router.navigate(['cadastrar']);
+    this.router.navigate(['signup']);
     this.fecharModal();
   }
 
