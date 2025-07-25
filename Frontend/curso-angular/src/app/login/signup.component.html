@@ -1,63 +1,42 @@
 <div class="signup-container">
-  <!-- Elementos decorativos (patinhas) -->
-  <div class="paw-print">🐾</div>
-  <div class="paw-print">🐾</div>
-  <div class="paw-print">🐾</div>
-  <div class="paw-print">🐾</div>
-
   <div class="signup-card">
-    <h1>Crie sua Conta</h1>
-    <p class="subtitle">É rápido e fácil.</p>
+    <div class="logo-container">
+      <img src="assets/img/logo.png" alt="Logo Nanny's Pets" />
+    </div>
 
-    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" novalidate>
-      
-      <!-- Campo Usuário -->
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
-        <label for="username">Nome de Usuário</label>
-        <input type="text" id="username" formControlName="username" placeholder="Como devemos te chamar?">
-        <div *ngIf="signupForm.get('username')?.invalid && signupForm.get('username')?.touched" class="validation-error">
-          O nome de usuário é obrigatório.
-        </div>
-      </div>
-      
-      <!-- Campo Email -->
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" formControlName="email" placeholder="seu@email.com">
-        <div *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched" class="validation-error">
-          <span *ngIf="signupForm.get('email')?.errors?.['required']">O email é obrigatório.</span>
-          <span *ngIf="signupForm.get('email')?.errors?.['email']">Por favor, insira um email válido.</span>
-        </div>
+        <label for="username">Usuário</label>
+        <input type="text" id="username" formControlName="username" required />
       </div>
 
-      <!-- Campo Senha -->
+      <div class="form-group">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" formControlName="email" required />
+      </div>
+
       <div class="form-group">
         <label for="password">Senha</label>
-        <input type="password" id="password" formControlName="password" placeholder="Crie uma senha forte">
-        <div *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched" class="validation-error">
-          A senha deve ter no mínimo 8 caracteres.
-        </div>
+        <input type="password" id="password" formControlName="password" required />
       </div>
 
-      <!-- Campo Confirmar Senha -->
       <div class="form-group">
         <label for="confirmPassword">Confirmar Senha</label>
-        <input type="password" id="confirmPassword" formControlName="confirmPassword" placeholder="Digite a senha novamente">
-        <div *ngIf="signupForm.hasError('passwordsMismatch') && signupForm.get('confirmPassword')?.touched" class="validation-error">
+        <input type="password" id="confirmPassword" formControlName="confirmPassword" required />
+        <div *ngIf="signupForm.errors?.passwordsMismatch && signupForm.touched" class="error">
           As senhas não coincidem.
         </div>
       </div>
 
       <button type="submit" [disabled]="signupForm.invalid">Cadastrar</button>
 
-      <!-- Mensagens de Sucesso e Erro -->
-      <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
-      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
 
+      <div *ngIf="successMessage" class="success-message">
+        {{ successMessage }}
+      </div>
     </form>
-
-    <div class="login-link">
-      Já tem uma conta? <a routerLink="/login">Faça Login</a>
-    </div>
   </div>
 </div>
