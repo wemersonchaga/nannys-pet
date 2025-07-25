@@ -1,48 +1,70 @@
-    <!DOCTYPE html>
-    <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login - Nanny's Pets</title>
-    </head>
-    <body>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - Nanny's Pets</title>
+</head>
+<body>
 
-        <div class="login-container">
-            
-            <div class="paw-print">🐾</div>
-            <div class="paw-print">🐾</div>
-            <div class="paw-print">🐾</div>
-            <div class="paw-print">🐾</div>
-            <div class="paw-print">🐾</div>
-            <div class="paw-print">🐾</div>
+  <div class="login-container">
 
-            <div class="login-card">
-            <div class="logo-container">
+    <!-- Patinhas animadas/decorativas -->
+    <div class="paw-print">🐾</div>
+    <div class="paw-print">🐾</div>
+    <div class="paw-print">🐾</div>
+    <div class="paw-print">🐾</div>
+    <div class="paw-print">🐾</div>
+    <div class="paw-print">🐾</div>
+
+    <!-- Cartão de login -->
+    <div class="login-card">
+
+      <!-- Logo -->
+      <div class="logo-container">
         <img src="assets/img/logo.png" alt="Logo Nanny's Pets" />
-    </div>
+      </div>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        
-        <div class="form-group">
-            <label for="username">Usuário</label>
-            <input type="text" id="username" formControlName="username" placeholder="Digite seu usuário" required>
-        </div>
-        
-        <div class="form-group">
-            <label for="password">Senha</label>
-            <input type="password" id="password" formControlName="password" placeholder="Digite sua senha" required>
-        </div>
-        
-        <button type="submit" [disabled]="!loginForm.invalid">Login</button>
+      <!-- Formulário de login -->
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
+        <!-- Campo de usuário -->
+        <div class="form-group">
+          <label for="username">Usuário</label>
+          <input
+            type="text"
+            id="username"
+            formControlName="username"
+            placeholder="Digite seu usuário"
+            required
+          />
+        </div>
+
+        <!-- Campo de senha -->
+        <div class="form-group">
+          <label for="password">Senha</label>
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            placeholder="Digite sua senha"
+            required
+          />
+        </div>
+
+        <!-- Botão de login -->
+        <button type="submit" [disabled]="loginForm.invalid">Login</button>
+
+        <!-- Mensagem de erro -->
         <div *ngIf="errorMessage" class="error-message">
-            {{ errorMessage }}
+          {{ errorMessage }}
         </div>
 
-    </form>
-            </div>
+      </form>
 
-        </div>
+    </div>
+    
+  </div>
 
-    </body>
-    </html>
+</body>
+</html>
