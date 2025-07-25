@@ -131,3 +131,15 @@ button:disabled {
     font-size: 0.95rem;
     font-weight: 500;
 }
+/* Adicione este código ao seu CSS do login */
+
+.logo-container {
+    text-align: center;
+    margin-bottom: 1.5rem; /* Espaçamento abaixo do logo */
+}
+
+.logo-container img {
+    max-width: 180px;  /* Define o tamanho máximo que o logo pode ter */
+    width: 100%;       /* Garante que o logo se ajuste se o card for menor que 180px */
+    height: auto;      /* Mantém a proporção da imagem para não distorcer */
+}
