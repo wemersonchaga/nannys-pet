@@ -1,36 +1,43 @@
-import { Injectable, Inject, PLATFORM_ID} from '@angular/core';
-import { HttpClient, HttpInterceptor, HttpRequest, HttpHandler, HttpEvent,HttpHeaders } from '@angular/common/http';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { HttpClient, HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 import { CanActivate, Router } from '@angular/router';
-import { Observable, BehaviorSubject} from 'rxjs';
+import { Observable, BehaviorSubject, of } from 'rxjs';
 import { tap, shareReplay } from 'rxjs/operators';
-import moment from 'moment';
 import { jwtDecode } from 'jwt-decode';
 import { AuthResponse } from '../auth-response.model';
 import { isPlatformBrowser } from '@angular/common';
+
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
+
+interface JWTPayload {
+  user_id: number;
+  username: string;
+  email: string;
+  exp: number;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'http://localhost:8000/auth/login/';  // URL da sua API de login
+  private baseUrl = 'http://localhost:8000/auth/login/';
   private loggedIn = new BehaviorSubject<boolean>(false);
 
   constructor(
     private http: HttpClient,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
-    // Verifica se o usuário já está logado ao iniciar
     if (isPlatformBrowser(this.platformId)) {
       this.loggedIn.next(!!localStorage.getItem('token'));
     }
   }
 
-  // Método para login
   login(username: string, password: string): Observable<any> {
     return this.http.post(this.baseUrl, { username, password }).pipe(
       tap((response: any) => {
         if (typeof window !== 'undefined' && window.localStorage) {
-          // Armazena o token no localStorage e atualiza o estado de login
           localStorage.setItem('token', response.token);
           this.loggedIn.next(true);
         }
@@ -38,46 +45,40 @@ export class AuthService {
     );
   }
 
-  // Método para logout
   logout(): void {
     if (typeof window !== 'undefined' && window.localStorage) {
       localStorage.removeItem('token');
+      localStorage.removeItem('expires_at');
       this.loggedIn.next(false);
     }
   }
 
-  // Verifica se o usuário está logado
   isLoggedIn(): Observable<boolean> {
     return this.loggedIn.asObservable();
   }
 
-  // Obtém o token de autenticação
   getToken(): string | null {
     return localStorage.getItem('token');
   }
-  private setSession(authResult: {token: string; expiresIn: number }) {
-    const token = authResult.token;
-    const payload = <JWTPayload> jwtDecode(token);
-    const expiresAt = moment.unix(payload.exp);
 
-    localStorage.setItem('Token', authResult.token);
-    localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
-    console.log('Token:', token); // Log the token to check its value
+  private setSession(authResult: { token: string; expiresIn: number }) {
+    const token = authResult.token;
     try {
-      if (typeof token !== 'string') {
-          throw new Error('Token must be a string');
-      }
-      const payload = jwtDecode(token);
-      // Proceed with setting session
-      } catch (error) {
+      const payload = jwtDecode<JWTPayload>(token);
+      const expiresAt = dayjs.unix(payload.exp);
+
+      localStorage.setItem('token', token);
+      localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
+      this.loggedIn.next(true);
+    } catch (error) {
       console.error('Error decoding token:', error);
-      // Handle the error (e.g., redirect to login, show a message)
-      }
+      this.logout();
     }
+  }
 
   signup(username: string, email: string, password1: string, password2: string) {
     return this.http.post<AuthResponse>(
-      this.baseUrl.concat('signup/'),
+      this.baseUrl.replace('login/', 'signup/'),
       { username, email, password1, password2 }
     ).pipe(
       tap((response: AuthResponse) => this.setSession(response)),
@@ -86,43 +87,43 @@ export class AuthService {
   }
 
   refreshToken(): Observable<any> {
-    if (moment().isBetween(this.getExpiration().subtract(1, 'days'), this.getExpiration())) {
+    const now = dayjs();
+    const expiration = this.getExpiration();
+
+    if (now.isAfter(expiration.subtract(1, 'day')) && now.isBefore(expiration)) {
       return this.http.post(
-        this.baseUrl.concat('refresh-token/'),
+        this.baseUrl.replace('login/', 'refresh-token/'),
         { token: this.getToken() }
       ).pipe(
         tap(response => this.setSession(response as AuthResponse)),
-                shareReplay(),
+        shareReplay(),
       );
     }
-    return new Observable(); // Return an empty observable if the token is not refreshed
+    return of(null);
   }
-  getExpiration(): moment.Moment {
+
+  getExpiration(): dayjs.Dayjs {
     const expiration = localStorage.getItem('expires_at');
     if (expiration) {
-      const expiresAt = JSON.parse(expiration);
-      return moment(expiresAt);
+      return dayjs(parseInt(expiration, 10));
     }
-    return moment(0); // Return a moment object representing the epoch if no expiration is found
+    return dayjs(0);
   }
 
-
-  isLoggedOut() {
-    return !this.isLoggedIn();
+  isLoggedOut(): Observable<boolean> {
+    return this.isLoggedIn().pipe(tap(loggedIn => !loggedIn));
   }
 }
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = localStorage.getItem('Token');
+    const token = localStorage.getItem('token');
 
     if (token) {
       const cloned = req.clone({
-        headers: req.headers.set('Authorization', 'JWT '.concat(token))
+        headers: req.headers.set('Authorization', 'JWT ' + token)
       });
-
       return next.handle(cloned);
     } else {
       return next.handle(req);
@@ -132,68 +133,18 @@ export class AuthInterceptor implements HttpInterceptor {
 
 @Injectable()
 export class AuthGuard implements CanActivate {
+  constructor(private authService: AuthService, private router: Router) {}
 
-  constructor(private authService: AuthService, private router: Router) { }
-
-  canActivate() {
-    if (this.authService.isLoggedIn()) {
+  canActivate(): boolean | Observable<boolean> {
+    let loggedIn = false;
+    this.authService.isLoggedIn().subscribe(isLogged => loggedIn = isLogged);
+    if (loggedIn) {
       this.authService.refreshToken();
-
       return true;
     } else {
       this.authService.logout();
       this.router.navigate(['login']);
-
       return false;
     }
   }
 }
-
-interface JWTPayload {
-  user_id: number;
-  username: string;
-  email: string;
-  exp: number;
-}
-
-
-
-//export class AuthService {
- // private apiUrl = 'http://localhost:8000/auth/'; // Altere para a URL do seu backend
- // private token: string | null = null;
-//  private isLoggedInSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
-//  constructor(private http: HttpClient, private router: Router) {
-  //  this.token = localStorage.getItem('token');
- //   this.isLoggedInSubject.next(this.isAuthenticated());
- // }
-
- // login(username: string, password: string): Observable<any> {
- //   return this.http.post<any>(`${this.apiUrl}/login`, { username, password }).pipe(
-   //   tap(response => {
-  //      this.token = response.token;
-//        localStorage.setItem('token', this.token);
-//        this.isLoggedInSubject.next(true);
-//      })
-//    );
-//  }
-
-//  logout(): void {
-//    this.token = null;
-//    localStorage.removeItem('token');
-//    this.isLoggedInSubject.next(false);
-//    this.router.navigate(['/login']); // Redireciona para a página de login
-//  }
-
-//  isAuthenticated(): boolean {
-//    return this.token !== null;
-//  }
-
-//  getToken(): string | null {
-//    return this.token;
-//  }
-
-//  get isLoggedIn(): Observable<boolean> {
-//    return this.isLoggedInSubject.asObservable();
-//  }
-//}
