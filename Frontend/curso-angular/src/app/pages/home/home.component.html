@@ -1,25 +1,24 @@
-
-    <div class="modal" *ngIf="modalAberto">
-        <div class="contmodal">
-            <span class="close" (click)="fecharModal()">&times;</span>
-            <div class="hdois">
-                <h2>Você deseja ser:</h2>
-            </div>
-            <div class="botoes">
-                <button (click)="navigateToCadastroTutor()" class="tutor"> Tutor </button>
-                <button (click)="navigateToCadastroCuidador()" class="tutor"> Cuidador </button>
-            </div>
+<div class="modal-overlay" *ngIf="modalAberto">
+    <div class="modal-content">
+        <span class="close-button" (click)="fecharModal()">&times;</span>
+        <h2>Como você quer se cadastrar?</h2>
+        <div class="modal-buttons">
+            <button (click)="navigateToCadastroTutor()" class="btn-primary">Sou Tutor</button>
+            <button (click)="navigateToCadastroCuidador()" class="btn-secondary">Sou Cuidador</button>
         </div>
     </div>
-    <div class="home">
-        
-        <img src="assets/img/caes.png" alt="imagem" style="width: 500px;position: absolute; top: 25%;left:100px ;"/>
-        
-        <h1 class="inter-font">A melhor plataforma de hospedagem de pets.<br>
-            Feito por pessoas que gostam de pets assim como você!</h1>
-        <a><button (click)="abrirModal()" class="cadastro">Cadastrar</button></a>
-        
-    </div>
+</div>
+
+<main class="home-container">
     
+    <div class="content-text">
+        <h1 class="inter-font">A melhor plataforma de hospedagem de pets.</h1>
+        <p class="subtitle">Feito por pessoas que amam pets, assim como você!</p>
+        <button (click)="abrirModal()" class="btn-cadastro">Cadastre-se Grátis</button>
+    </div>
 
+    <div class="content-image">
+        <img src="assets/img/caes.png" alt="Dois cachorros felizes brincando" />
+    </div>
 
+</main>

@@ -1,94 +1,159 @@
-.home{
+/* --- Layout Principal da Home --- */
+.home-container {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-.inter-font {
-    font-family: 'Inter', sans-serif;
-    position: absolute;
-    left: 40%;
-    top: 390px;
-}
-
-.cadastro{
-    position: absolute;
-    top: 510px;
-    right: 14%;
-    width: 180px;
-    height: 30px;
-    border-radius: 10px;
-    background-color: #D2657F;
-    position: center;
-    color: white;
-    border: none;
-}
-
-.modal {
-    display: flex;
+    flex-direction: column; /* Padrão mobile-first: empilhado */
     align-items: center;
     justify-content: center;
+    min-height: calc(100vh - 80px); /* Ajuste a altura se tiver um header */
+    padding: 2rem;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.content-text {
+    text-align: center; /* Centralizado no mobile */
+    max-width: 550px;
+}
+
+.content-text h1 {
+    font-size: 2.5rem; /* Tamanho de fonte para mobile */
+    color: #333;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+.content-text .subtitle {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 2rem;
+}
+
+.btn-cadastro {
+    background-color: #8A2BE2;
+    color: white;
+    padding: 15px 35px;
+    border: none;
+    border-radius: 50px; /* Botão arredondado */
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-cadastro:hover {
+    background-color: #6A1B9A;
+    transform: translateY(-3px);
+}
+
+.content-image img {
+    max-width: 100%; /* Imagem se ajusta à largura do container */
+    height: auto;
+    border-radius: 15px;
+}
+
+/* --- Estilos para Telas Maiores (Desktop) --- */
+@media (min-width: 768px) {
+    .home-container {
+        flex-direction: row; /* Lado a lado no desktop */
+        justify-content: space-between;
+        gap: 4rem;
+    }
+
+    .content-text {
+        text-align: left; /* Alinhado à esquerda no desktop */
+    }
+
+    .content-text h1 {
+        font-size: 3.2rem; /* Fonte maior no desktop */
+    }
+}
+
+/* --- Estilos do Modal --- */
+.modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro com opacidade */
-    z-index: 1; /* Garante que o modal esteja acima do conteúdo principal */
-    overflow: auto;
-}
-
-.modal .contmodal .hdois{
-    font-family: 'Inter', sans-serif;
-    
-}
-.contmodal {
-    background-color: #fff;
-    padding: 80px;
-    border: 1px solid #888;
-    width: 40%; /* Ajuste a largura conforme necessário */
-    text-align: center; /* Centraliza o conteúdo no modal */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para destacar o modal */
-}
-
-.hdois{
-    padding-bottom: 40px;
-}
-
-.tutor{
-    width: 180px;
-    height: 30px;
-    border-radius: 10px;
-    background-color: #D2657F;
-    position: center;
-    color: white;
-    border: none;
-}
-
-.close {
-    position: fixed;
-    top: 350px;
-    right: 31%;
-    color: #aaa;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.botoes{
+    background-color: rgba(0, 0, 0, 0.6); /* Fundo escurecido */
     display: flex;
-    gap: 50px;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-out;
 }
 
-h2 {
-    margin-top: 0; /* Remove a margem superior padrão do h2 */
+.modal-content {
+    background: white;
+    padding: 2rem 3rem;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
     position: relative;
-    top: 100 px;
+    width: 90%;
+    max-width: 450px;
+    animation: slideIn 0.4s ease-out;
 }
 
-/* Adiciona um espaço entre os botões */
-button {
-    margin-right: 10px;
+.modal-content h2 {
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 2rem;
+    color: #aaa;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close-button:hover {
+    color: #333;
+}
+
+.modal-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.modal-buttons button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.modal-buttons .btn-primary {
+    background-color: #8A2BE2;
+    color: white;
+}
+.modal-buttons .btn-primary:hover {
+    background-color: #6A1B9A;
+}
+
+.modal-buttons .btn-secondary {
+    background-color: #e9ecef;
+    color: #333;
+}
+.modal-buttons .btn-secondary:hover {
+    background-color: #ced4da;
+}
+
+/* Animações do Modal */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }

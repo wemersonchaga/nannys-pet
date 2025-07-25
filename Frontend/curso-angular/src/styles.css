@@ -1,19 +1,16 @@
-/* You can add global styles to this file, and also import other style files */
+/* styles.css (Arquivo de estilos globais do seu projeto Angular) */
+
+/* 1. Reset básico para remover margens padrão e garantir um layout previsível */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Essencial para o cálculo de tamanho dos elementos */
 }
 
-h2{
-    font-family: 'Inter', sans-serif;
-}
-
-a{
-    font-family: 'Inter', sans-serif;
-}
-
-div{
-    font-family: 'Inter', sans-serif;
+/* 2. Estilos fundamentais para o corpo da página */
+html, body {
+  height: 100%; /* Garante que o corpo ocupe toda a altura da tela */
+  font-family: 'Inter', sans-serif; /* Usa a fonte que você já importou no index.html */
+  background-color: #f4f7f6; /* Um fundo suave e neutro para o app */
+  color: #333; /* Cor de texto padrão com bom contraste */
 }
