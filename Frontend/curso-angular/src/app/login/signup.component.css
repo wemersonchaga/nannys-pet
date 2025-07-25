@@ -165,3 +165,13 @@ button:disabled {
     50% { transform: translateY(-20px) rotate(10deg); }
     100% { transform: translateY(0px) rotate(0deg); }
 }
+.logo-container {
+    text-align: center;
+    margin-bottom: 1.5rem; /* Espaçamento abaixo do logo */
+}
+
+.logo-container img {
+    max-width: 180px;  /* Define o tamanho máximo que o logo pode ter */
+    width: 100%;       /* Garante que o logo se ajuste se o card for menor que 180px */
+    height: auto;      /* Mantém a proporção da imagem para não distorcer */
+}
