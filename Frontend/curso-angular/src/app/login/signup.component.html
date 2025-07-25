@@ -23,7 +23,10 @@
       <div class="form-group">
         <label for="confirmPassword">Confirmar Senha</label>
         <input type="password" id="confirmPassword" formControlName="confirmPassword" required />
-        <div *ngIf="signupForm.errors?.passwordsMismatch && signupForm.touched" class="error">
+        <div
+          *ngIf="signupForm.hasError('passwordsMismatch') && signupForm.get('confirmPassword')?.touched"
+          class="error"
+        >
           As senhas não coincidem.
         </div>
       </div>
