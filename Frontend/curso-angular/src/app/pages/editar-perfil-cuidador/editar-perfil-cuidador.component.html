@@ -1,0 +1,19 @@
+<div class="form-container">
+  <h2>Editar Perfil de Cuidador</h2>
+
+  <form (ngSubmit)="salvarAlteracoes()">
+    <label>Telefone:</label>
+    <input type="text" [(ngModel)]="cuidador.telefone" name="telefone" required>
+
+    <label>Endereço:</label>
+    <input type="text" [(ngModel)]="cuidador.endereco" name="endereco" required>
+
+    <label>Descrição:</label>
+    <textarea [(ngModel)]="cuidador.descricao" name="descricao" required></textarea>
+
+    <label>Serviços oferecidos:</label>
+    <input type="text" [(ngModel)]="cuidador.servicos" name="servicos" required>
+
+    <button type="submit" class="btn">Salvar</button>
+  </form>
+</div>

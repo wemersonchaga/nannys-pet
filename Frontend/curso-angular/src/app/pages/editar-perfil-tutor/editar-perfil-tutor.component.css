@@ -1,0 +1,39 @@
+.editar-perfil {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.editar-perfil label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.editar-perfil input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  background-color: #2b7a78;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.sucesso {
+  color: green;
+  margin-top: 10px;
+}
+
+.erro {
+  color: red;
+  margin-top: 10px;
+}

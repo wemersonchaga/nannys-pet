@@ -1,20 +1,28 @@
 .perfil-container {
-  padding: 2rem;
   max-width: 600px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.perfil-card {
-  border: 1px solid #ccc;
-  border-radius: 12px;
+  margin: auto;
   padding: 2rem;
-  background-color: #fafafa;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.1);
 }
 
-.perfil-card img {
-  width: 100px;
-  border-radius: 50%;
-  margin-bottom: 1rem;
+.perfil-bloco p {
+  margin-bottom: 10px;
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 10px 16px;
+  background-color: #f28500;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background-color: #d67400;
 }

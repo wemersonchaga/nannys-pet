@@ -31,6 +31,9 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './login/signup.component';
 import { AuthService, AuthInterceptor, AuthGuard } from './services/auth.service';
 import { PerfilComponent } from './pages/perfil/perfil.component';
+import { EditarPerfilTutorComponent } from './pages/editar-perfil-tutor/editar-perfil-tutor.component';
+import { EditarPerfilCuidadorComponent } from './pages/editar-perfil-cuidador/editar-perfil-cuidador.component';
+import { EscolherPerfilComponent } from './pages/escolher-perfil/escolher-perfil.component';
 
 
 @NgModule({
@@ -58,6 +61,9 @@ import { PerfilComponent } from './pages/perfil/perfil.component';
     LoginComponent,
     SignupComponent,
     PerfilComponent,
+    EditarPerfilTutorComponent,
+    EditarPerfilCuidadorComponent,
+    EscolherPerfilComponent,
 
   ],
   imports: [
