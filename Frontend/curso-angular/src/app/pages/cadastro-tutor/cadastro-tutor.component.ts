@@ -11,8 +11,6 @@ import { environment } from '../../../environments/environment';
 })
 export class CadastroTutorComponent implements OnInit {
   tutorForm!: FormGroup;
-  imagePreview: string | ArrayBuffer | null = null;
-  imageFile!: File | null;
   errorMessage = '';
   usuario: any = null;
 
@@ -28,8 +26,7 @@ export class CadastroTutorComponent implements OnInit {
       sobrenome: ['', Validators.required],
       email: [{ value: '', disabled: true }, [Validators.required, Validators.email]],
       cpf: ['', Validators.required],
-      data_nascimento: [''],
-      foto: [null]
+      data_nascimento: ['']
     });
 
     this.buscarUsuarioLogado();
@@ -54,19 +51,6 @@ export class CadastroTutorComponent implements OnInit {
     }
   }
 
-  onImageSelected(event: any): void {
-    const file = event.target.files[0];
-    if (file) {
-      this.imageFile = file;
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = reader.result;
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
   onSubmit(): void {
     if (!this.tutorForm.valid) {
       this.errorMessage = 'Preencha todos os campos obrigatórios.';
@@ -82,10 +66,6 @@ export class CadastroTutorComponent implements OnInit {
     const dataNascimento = this.tutorForm.get('data_nascimento')?.value;
     if (dataNascimento) {
       formData.append('data_nascimento', dataNascimento);
-    }
-
-    if (this.imageFile) {
-      formData.append('foto_perfil', this.imageFile);
     }
 
     const token = localStorage.getItem('token');
