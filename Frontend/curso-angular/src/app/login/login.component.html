@@ -28,14 +28,14 @@
       <!-- Formulário de login -->
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
-        <!-- Campo de usuário -->
+        <!-- Campo de e-mail -->
         <div class="form-group">
-          <label for="username">Usuário</label>
+          <label for="email">E-mail</label>
           <input
-            type="text"
-            id="username"
+            type="email"
+            id="email"
             formControlName="username"
-            placeholder="Digite seu usuário"
+            placeholder="Digite seu e-mail"
             required
           />
         </div>
