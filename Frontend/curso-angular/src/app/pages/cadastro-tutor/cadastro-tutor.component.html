@@ -34,15 +34,6 @@
           <input type="date" id="data_nascimento" formControlName="data_nascimento" />
         </div>
 
-        <div class="upload-section">
-          <label for="file-upload" class="upload-label">Escolher Foto de Perfil</label>
-          <input type="file" id="file-upload" accept="image/*" (change)="onImageSelected($event)" />
-          <div class="image-preview">
-            <img *ngIf="imagePreview" [src]="imagePreview" alt="Foto selecionada" />
-            <div *ngIf="!imagePreview" class="placeholder-icon"></div>
-          </div>
-        </div>
-
         <div *ngIf="errorMessage" class="alert alert-danger">
           {{ errorMessage }}
         </div>
