@@ -1,0 +1,145 @@
+/* Importando uma fonte mais amigável */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+/* --- Reset Básico e Estilos Globais --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f0f2f5; /* Um fundo suave */
+}
+
+/* --- Container Principal (Flexbox para Centralização) --- */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    position: relative; /* Necessário para posicionar as patinhas */
+    overflow: hidden; /* Esconde as patinhas que saem da tela */
+}
+
+/* --- Card de Login --- */
+.login-card {
+    background-color: white;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px; /* Limita a largura em telas grandes */
+    text-align: center;
+    z-index: 10; /* Garante que o card fique na frente das patinhas */
+}
+
+.login-card h1 {
+    margin-bottom: 25px;
+    color: #333;
+    font-size: 2em;
+}
+
+/* --- Estilos do Formulário --- */
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #836FFF; /* Cor de destaque roxa */
+}
+
+/* --- Botão de Login --- */
+button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: #8A2BE2; /* Um roxo vibrante */
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover:not(:disabled) {
+    background-color: #6A1B9A; /* Roxo mais escuro no hover */
+    transform: translateY(-2px);
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* --- Patinhas Decorativas 🐾 --- */
+.paw-print {
+    position: absolute;
+    font-size: 3rem;
+    color: #000;
+    opacity: 0.05;
+    animation: float 15s ease-in-out infinite;
+    z-index: 1;
+}
+
+/* Posicionamento e tamanho variados para cada patinha */
+.paw-print:nth-of-type(1) { top: 10%; left: 15%; font-size: 4rem; animation-delay: -2s; }
+.paw-print:nth-of-type(2) { top: 20%; left: 80%; font-size: 2rem; transform: rotate(20deg); animation-delay: -5s; }
+.paw-print:nth-of-type(3) { top: 60%; left: 5%; font-size: 3.5rem; transform: rotate(-15deg); animation-delay: -10s; }
+.paw-print:nth-of-type(4) { top: 80%; left: 90%; font-size: 5rem; transform: rotate(10deg); animation-delay: -7s; }
+.paw-print:nth-of-type(5) { top: 40%; left: 50%; font-size: 2.5rem; transform: rotate(30deg); animation-delay: -3s; }
+.paw-print:nth-of-type(6) { top: 90%; left: 30%; font-size: 3rem; transform: rotate(-30deg); animation-delay: -1s; }
+
+/* Animação para as patinhas flutuarem suavemente */
+@keyframes float {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(10deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+}
+
+/* --- Estilo da Mensagem de Erro --- */
+.error-message {
+    margin-top: 15px;
+    padding: 12px;
+    background-color: #f8d7da; /* Fundo vermelho claro */
+    color: #721c24;           /* Texto vermelho escuro */
+    border: 1px solid #f5c6cb;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+/* Adicione este código ao seu CSS do login */
+
+.logo-container {
+    text-align: center;
+    margin-bottom: 1.5rem; /* Espaçamento abaixo do logo */
+}
+
+.logo-container img {
+    max-width: 180px;  /* Define o tamanho máximo que o logo pode ter */
+    width: 100%;       /* Garante que o logo se ajuste se o card for menor que 180px */
+    height: auto;      /* Mantém a proporção da imagem para não distorcer */
+}

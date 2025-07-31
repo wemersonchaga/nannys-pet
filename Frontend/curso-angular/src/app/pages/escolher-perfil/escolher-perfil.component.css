@@ -1,0 +1,48 @@
+.escolher-perfil-container {
+  max-width: 400px;
+  margin: 3rem auto;
+  text-align: center;
+  padding: 2rem;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+h2 {
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.perfil-btn {
+  padding: 1rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.perfil-btn.tutor {
+  background-color: #E67AB8;
+  color: white;
+}
+
+.perfil-btn.tutor:hover {
+  background-color: #D660A0;
+}
+
+.perfil-btn.cuidador {
+  background-color: #6CCECB;
+  color: white;
+}
+
+.perfil-btn.cuidador:hover {
+  background-color: #55B2AD;
+}

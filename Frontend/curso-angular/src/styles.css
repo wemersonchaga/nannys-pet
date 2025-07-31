@@ -1,0 +1,21 @@
+/* Em src/styles.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+body { 
+  font-family: 'Inter', sans-serif; 
+  /* ... outros estilos globais ... */
+}
+/* 1. Reset básico para remover margens padrão e garantir um layout previsível */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Essencial para o cálculo de tamanho dos elementos */
+}
+
+/* 2. Estilos fundamentais para o corpo da página */
+html, body {
+  height: 100%; /* Garante que o corpo ocupe toda a altura da tela */
+  font-family: 'Inter', sans-serif; /* Usa a fonte que você já importou no index.html */
+  background-color: #f4f7f6; /* Um fundo suave e neutro para o app */
+  color: #333; /* Cor de texto padrão com bom contraste */
+}

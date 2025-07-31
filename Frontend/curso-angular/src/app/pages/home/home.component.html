@@ -1,0 +1,77 @@
+<div class="modal-overlay" *ngIf="modalAberto">
+    <div class="modal-content">
+        <span class="close-button" (click)="fecharModal()">&times;</span>
+        <h2>Como você quer se cadastrar?</h2>
+        <div class="modal-buttons">
+            <button (click)="navigateToCadastro('tutor')" class="btn-primary">Sou Tutor</button>
+            <button (click)="navigateToCadastro('cuidador')" class="btn-secondary">Sou Cuidador</button>
+        </div>
+    </div>
+</div>
+
+<main class="home-container">
+    <div class="content-text">
+        <h1 class="inter-font">A melhor plataforma de hospedagem de pets.</h1>
+        <p class="subtitle">Feito por pessoas que amam pets, assim como você!</p>
+      <button (click)="abrirModal()" class="btn-cadastro">Cadastre-se Grátis</button>
+    </div>
+    <div class="content-image">
+        <img src="assets/img/caes.png" alt="Um cãozinho e um gato felizes" />
+    </div>
+</main>
+
+<section class="how-it-works-section">
+    <h2>Simples, rápido e seguro</h2>
+    <div class="steps-container">
+        <div class="step-card">
+            <div class="step-icon">🔍</div>
+            <h3>1. Busque</h3>
+            <p>Use nossos filtros para encontrar o cuidador ideal perto de você.</p>
+        </div>
+        <div class="step-card">
+            <div class="step-icon">📅</div>
+            <h3>2. Reserve</h3>
+            <p>Converse com o cuidador e agende as datas da hospedagem com segurança.</p>
+        </div>
+        <div class="step-card">
+            <div class="step-icon">❤️</div>
+            <h3>3. Relaxe</h3>
+            <p>Seu pet recebe o melhor cuidado e você acompanha tudo com fotos e atualizações.</p>
+        </div>
+    </div>
+</section>
+
+<section class="features-section">
+    <div class="features-image">
+        <img src="assets/img/cao2.png" alt="Um cãozinho feliz" />
+    </div>
+    <div class="features-content">
+        <h2>Sua tranquilidade é nossa prioridade</h2>
+        <ul class="feature-list">
+            <li>✅ <strong>Cuidadores Verificados:</strong> <span>Processo de seleção e verificação de perfil.</span></li>
+            <li>🛡️ <strong>Garantia Veterinária:  </strong> <span>Cobertura para emergências durante a estadia.</span></li>
+            <li>💬 <strong>Suporte 24/7:          </strong> <span>Nossa equipe está sempre disponível para ajudar.</span></li>
+            <li>⭐ <strong>Avaliações Reais:      </strong> <span>Leia o que outros tutores dizem antes de reservar.</span></li>
+        </ul>
+    </div>
+</section>
+
+<section class="testimonials-section">
+    <h2>Amado por tutores e cuidadores</h2>
+    <div class="testimonials-container">
+        <article class="testimonial-card">
+            <p>"Deixei minha cachorrinha pela primeira vez e fiquei muito tranquila. A cuidadora foi incrível e mandava fotos todos os dias. Recomendo demais!"</p>
+            <footer>
+                <img src="https://placehold.co/100x100?text=Ana" alt="Foto da tutora Ana">
+                <strong>Ana L., Tutora da Belinha</strong>
+            </footer>
+        </article>
+        <article class="testimonial-card">
+            <p>"Amo trabalhar como cuidador na Nanny's Pet. A plataforma é super segura e me conecta com tutores responsáveis. É muito gratificante!"</p>
+            <footer>
+                <img src="https://placehold.co/100x100?text=João" alt="Foto do cuidador João">
+                <strong>João P., Cuidador</strong>
+            </footer>
+        </article>
+    </div>
+</section>

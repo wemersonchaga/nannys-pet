@@ -1,0 +1,86 @@
+<main class="signup-container">
+  <section class="image-column">
+    </section>
+
+  <section class="form-column">
+    <div class="form-wrapper">
+      <h2>Cadastro de Cuidador</h2>
+      <p class="subtitle">Complete seu perfil para começar a receber pets!</p>
+
+      <form [formGroup]="cuidadorForm" (ngSubmit)="onSubmit()">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" formControlName="nome" [disabled]="true" />
+          </div>
+          <div class="form-group">
+            <label for="sobrenome">Sobrenome</label>
+            <input type="text" id="sobrenome" formControlName="sobrenome" required />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="telefone">Telefone</label>
+            <input type="text" id="telefone" formControlName="telefone" mask="(00) 00000-0000" required />
+          </div>
+           <div class="form-group">
+            <label for="dataNascimento">Data de Nascimento</label>
+            <input type="date" id="dataNascimento" formControlName="dataNascimento" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group cep-group">
+            <label for="cep">CEP</label>
+            <input type="text" id="cep" formControlName="cep" mask="00000-000" />
+            <button type="button" (click)="buscarEnderecoPorCep()" class="cep-btn">Buscar</button>
+          </div>
+          <div class="form-group">
+            <label for="logradouro">Rua / Logradouro</label>
+            <input type="text" id="logradouro" formControlName="logradouro" />
+          </div>
+        </div>
+         <div class="form-row">
+           <div class="form-group">
+            <label for="numero">Número</label>
+            <input type="text" id="numero" formControlName="numero" />
+          </div>
+           <div class="form-group">
+            <label for="bairro">Bairro</label>
+            <input type="text" id="bairro" formControlName="bairro" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Suas Características</label>
+          <div class="checkbox-group" formArrayName="caracteristicas">
+            <div *ngFor="let caracteristica of caracteristicasDisponiveis; let i = index">
+              <label class="checkbox-label">
+                <input type="checkbox" [formControlName]="i">
+                {{ caracteristica.nome }}
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="upload-section">
+          <div class="image-preview">
+            <img [src]="imagePreview" *ngIf="imagePreview; else placeholder" alt="Prévia da imagem" />
+            <ng-template #placeholder>
+              <div class="placeholder-icon"></div>
+            </ng-template>
+          </div>
+          <label for="file-upload" class="upload-label">Fazer upload de foto</label>
+          <input id="file-upload" type="file" accept="image/*" (change)="onFileSelected($event)" />
+        </div>
+
+        <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+        <div class="submit-container">
+          <button type="submit" class="submit-btn" [disabled]="cuidadorForm.invalid || isSubmitting">
+            {{ isSubmitting ? 'Enviando...' : 'Finalizar Cadastro de Cuidador' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>

@@ -1,0 +1,171 @@
+:host {
+    display: block;
+    background-color: #F8F9FA;
+}
+
+.signup-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* --- Coluna da Imagem (Esquerda) --- */
+.image-column {
+    flex: 1;
+    background-image: url('/assets/img/caes.png');
+    background-size: cover;
+    background-position: center;
+}
+
+/* --- Coluna do Formulário (Direita) --- */
+.form-column {
+    flex: 1.5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 1rem;
+}
+
+.form-wrapper {
+    width: 100%;
+    max-width: 600px;
+}
+
+.form-wrapper h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 2rem;
+    font-weight: 600;
+}
+
+.form-row {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.form-group {
+    flex: 1;
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid #CED4DA;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #E67AB8; /* Cor de foco rosa */
+    box-shadow: 0 0 0 3px rgba(230, 122, 184, 0.2);
+}
+
+/* --- Seção de Upload de Foto --- */
+.upload-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.image-preview {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #E9ECEF;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.placeholder-icon {
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, #FFDDC1 25%, #A7D8DE 26%);
+    border-radius: 50%;
+}
+
+#file-upload {
+    display: none; /* Esconde o input de arquivo padrão */
+}
+
+.upload-label {
+    color: #E67AB8;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+/* --- Botão de Envio --- */
+.submit-container {
+    text-align: right;
+}
+
+.submit-btn {
+    background-color: #E67AB8;
+    color: white;
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover:not(:disabled) {
+    background-color: #D660A0;
+}
+
+.submit-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* --- Responsividade --- */
+@media (max-width: 992px) {
+    .image-column {
+        display: none;
+    }
+
+    .form-column {
+        flex: 1;
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .form-wrapper h2 {
+        text-align: center;
+    }
+
+    .submit-container {
+        text-align: center;
+    }
+
+    .submit-btn {
+        width: 100%;
+    }
+}

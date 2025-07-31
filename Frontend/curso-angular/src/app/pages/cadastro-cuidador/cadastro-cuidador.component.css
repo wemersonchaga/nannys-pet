@@ -1,0 +1,220 @@
+/* --- Layout Principal --- */
+.signup-container {
+    display: flex;
+    min-height: calc(100vh - 80px); /* Altura da tela menos o header */
+    background-color: #f8f9fa; /* Um fundo suave */
+}
+
+.image-column {
+    flex: 1;
+    background: url('/assets/img/cuidador-com-pet.jpg') no-repeat center center;
+    background-size: cover;
+    display: none; /* Escondido em telas pequenas */
+}
+
+.form-column {
+    flex: 1.5; /* O formulário ocupa mais espaço */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.form-wrapper {
+    width: 100%;
+    max-width: 650px; /* Largura máxima do formulário */
+    background: #fff;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.form-wrapper h2 {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.form-wrapper .subtitle {
+    text-align: center;
+    color: #6c757d;
+    margin-bottom: 2rem;
+}
+
+
+/* --- Estilos de Formulário --- */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem; /* Espaçamento entre os grupos de campos */
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column; /* Empilhado no mobile */
+    gap: 1.25rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.form-group label {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #495057;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="date"] {
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #8A2BE2;
+    box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.15);
+}
+
+
+/* --- Estilos para Novos Elementos --- */
+.cep-group {
+    display: flex;
+    align-items: flex-end; /* Alinha o botão com o fim do input */
+    gap: 0.5rem;
+}
+
+.cep-group input {
+    flex-grow: 1; /* O input do CEP ocupa o espaço disponível */
+}
+
+.cep-btn {
+    padding: 12px 15px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.cep-btn:hover {
+    background-color: #495057;
+}
+
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Grid responsivo */
+    gap: 0.75rem;
+    border: 1px solid #e9ecef;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+}
+
+
+/* --- Upload de Imagem --- */
+.upload-section {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.image-preview {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px dashed #ced4da;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+input[type="file"] {
+    display: none; /* Esconde o input de arquivo padrão */
+}
+
+.upload-label {
+    background-color: #e9ecef;
+    color: #495057;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+.upload-label:hover {
+    background-color: #dee2e6;
+}
+
+
+/* --- Botão de Envio e Mensagens --- */
+.submit-container {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #8A2BE2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:disabled {
+    background-color: #9370DB; /* Cor mais clara quando desabilitado */
+    cursor: not-allowed;
+}
+
+.submit-btn:not(:disabled):hover {
+    background-color: #6A1B9A;
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+
+/* --- Responsividade para Telas Maiores --- */
+@media (min-width: 992px) {
+    .image-column {
+        display: block; /* Mostra a coluna da imagem */
+    }
+
+    .form-row {
+        flex-direction: row; /* Coloca os campos lado a lado */
+    }
+}

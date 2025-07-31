@@ -1,0 +1,32 @@
+<div class="perfil-container" *ngIf="perfilTipo !== 'nenhum'; else escolhaPerfil">
+  <h2>Bem-vindo(a), {{ userData?.nome }}</h2>
+
+  <!-- Exibe informações do Tutor -->
+  <div *ngIf="perfilTipo === 'tutor'" class="perfil-bloco">
+    <p><strong>Email:</strong> {{ userData?.usuario?.email }}</p>
+    <p><strong>Telefone:</strong> {{ userData?.telefone }}</p>
+    <p><strong>Endereço:</strong> {{ userData?.endereco }}</p>
+
+    <button routerLink="/editar-perfil-tutor" class="btn">Editar Perfil de Tutor</button>
+  </div>
+
+  <!-- Exibe informações do Cuidador -->
+  <div *ngIf="perfilTipo === 'cuidador'" class="perfil-bloco">
+    <p><strong>Email:</strong> {{ userData?.usuario?.email }}</p>
+    <p><strong>Telefone:</strong> {{ userData?.telefone }}</p>
+    <p><strong>Endereço:</strong> {{ userData?.endereco }}</p>
+    <p><strong>Descrição:</strong> {{ userData?.descricao }}</p>
+    <p><strong>Serviços:</strong> {{ userData?.servicos }}</p>
+
+    <button routerLink="/editar-perfil-cuidador" class="btn">Editar Perfil de Cuidador</button>
+  </div>
+</div>
+
+<!-- Mensagem de redirecionamento -->
+<ng-template #escolhaPerfil>
+  <div class="perfil-container">
+    <h2>Perfil não encontrado</h2>
+    <p>Você ainda não criou um perfil como tutor ou cuidador.</p>
+    <a routerLink="/escolher-perfil" class="btn btn-primary">Criar meu perfil</a>
+  </div>
+</ng-template>

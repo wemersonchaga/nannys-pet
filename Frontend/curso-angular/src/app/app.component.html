@@ -1,0 +1,52 @@
+<header class="main-header">
+    <nav class="navbar">
+
+        <a routerLink="/home" class="nav-logo">
+            <img src="assets/img/logo.png" alt="Logo Nanny's Pets" />
+        </a>
+
+        <div class="hamburger" (click)="toggleMenu()">
+            <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+        </div>
+
+        <ul class="nav-menu" [class.is-open]="menuAberto">
+            <li class="nav-item"><a routerLink="/home" class="nav-link" (click)="fecharMenu()">Home</a></li>
+            <li class="nav-item"><a routerLink="/cuidadores" class="nav-link" (click)="fecharMenu()">Nossos Cuidadores</a></li>
+
+            <ng-container *ngIf="!(authService.isLoggedIn() | async)">
+                <li class="nav-item dropdown">
+                    <a class="nav-link">Cadastre-se <span class="arrow-down">▼</span></a>
+                    <div class="dropdown-content">
+                        <a routerLink="/cadastro-cuidador" (click)="fecharMenu()">Cuidador</a>
+                        <a routerLink="/signup" (click)="fecharMenu()">Tutor</a>
+                    </div>
+                </li>
+                <li class="nav-item auth-mobile">
+                    <a routerLink="/login" class="btn btn-login" (click)="fecharMenu()">Login</a>
+                </li>
+            </ng-container>
+
+            <ng-container *ngIf="authService.isLoggedIn() | async">
+                <li class="nav-item"><a routerLink="/perfil" class="nav-link" (click)="fecharMenu()">Meu Perfil</a></li>
+                <li class="nav-item auth-mobile">
+                    <a (click)="fazerLogout()" class="btn btn-login">Logout</a>
+                </li>
+            </ng-container>
+        </ul>
+
+        <div class="auth-desktop">
+            <div *ngIf="!(authService.isLoggedIn() | async)" class="nav-actions">
+                <a routerLink="/login" class="btn btn-login">Login</a>
+                <a routerLink="/signup" class="btn btn-signup">Cadastrar</a>
+            </div>
+
+            <div *ngIf="authService.isLoggedIn() | async" class="nav-actions">
+                 <a routerLink="/perfil" class="nav-link profile-link">Meu Perfil</a>
+                 <a (click)="fazerLogout()" class="btn btn-login">Logout</a>
+            </div>
+        </div>
+        
+    </nav>
+</header>
+
+<router-outlet></router-outlet>
