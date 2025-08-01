@@ -57,14 +57,12 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-        working-directory: nannys-pet/djangoRestApp
+        working-directory: djangoRestApp  # ✅ CORRIGIDO
 
       - name: Aplicar migrations
-        run: |
-          python manage.py migrate
-        working-directory: nannys-pet/djangoRestApp
+        run: python manage.py migrate
+        working-directory: djangoRestApp  # ✅ CORRIGIDO
 
       - name: Executar testes
-        run: |
-          python manage.py test
-        working-directory: nannys-pet/djangoRestApp
+        run: python manage.py test
+        working-directory: djangoRestApp  # ✅ CORRIGIDO
