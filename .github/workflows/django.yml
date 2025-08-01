@@ -8,23 +8,60 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_DB: nannyspet
+          POSTGRES_USER: wemerson
+          POSTGRES_PASSWORD: 1240
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      USE_POSTGRES: true
+      DB_NAME: nannyspet
+      DB_USER: wemerson
+      DB_PASSWORD: 1240
+      DB_HOST: localhost
+      DB_PORT: 5432
+      SECRET_KEY: fake-key-for-ci
+      DEBUG: false
+
     strategy:
-      max-parallel: 4
+      max-parallel: 3
       matrix:
-        python-version: [3.7, 3.8, 3.9]
+        python-version: [3.9]  # Pode ajustar conforme sua versão
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    - name: Run Tests
-      run: |
-        python manage.py test
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libpq-dev
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run migrations
+        run: |
+          python manage.py migrate
+
+      - name: Run tests
+        run: |
+          python manage.py test
