@@ -37,7 +37,7 @@ jobs:
 
     strategy:
       matrix:
-        python-version: [3.14.0-rc.1]  # Django 5.0+ requer Python >= 3.10
+        python-version: [3.10]  # Use versão estável, não RC
 
     steps:
       - name: Checkout do código
@@ -51,7 +51,7 @@ jobs:
       - name: Instalar dependências do sistema
         run: |
           sudo apt-get update
-          sudo apt-get install -y libpq-dev
+          sudo apt-get install -y libpq-dev libjpeg-dev zlib1g-dev
 
       - name: Instalar dependências Python
         run: |
