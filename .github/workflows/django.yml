@@ -37,7 +37,7 @@ jobs:
 
     strategy:
       matrix:
-        python-version: [3.14]  # Django 5.0+ requer Python >= 3.10
+        python-version: [3.14.0-rc.1]  # Django 5.0+ requer Python >= 3.10
 
     steps:
       - name: Checkout do código
