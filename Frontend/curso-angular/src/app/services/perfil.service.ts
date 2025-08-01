@@ -2,6 +2,20 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { Tutor } from '../Tutor';       // ajuste o caminho conforme seu projeto
+import { Cuidador } from '../Cuidador'; // ajuste o caminho conforme seu projeto
+
+// Interface básica para Pet, ajuste campos conforme seu backend
+export interface Pet {
+  id: number;
+  nome: string;
+  especie: string;
+  raca?: string;
+  porte?: string;
+  idade?: number;
+  foto?: string;
+  // outros campos que você usar
+}
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +26,6 @@ export class PerfilService {
 
   constructor(private http: HttpClient) {}
 
-  /**
-   * Gera os headers com o token JWT armazenado no localStorage.
-   */
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
     return new HttpHeaders({
@@ -23,51 +34,35 @@ export class PerfilService {
     });
   }
 
-  // =====================
-  // ===== TUTOR =========
-  // =====================
-
-  /**
-   * Cadastra um novo perfil de tutor com dados em FormData (inclui imagem).
-   */
+  // TUTOR
   cadastrarTutor(formData: FormData): Observable<any> {
     const headers = this.getAuthHeaders();
     return this.http.post(this.tutorUrl, formData, { headers });
   }
 
-  /**
-   * Retorna os dados do tutor logado.
-   */
-  getPerfilTutor(): Observable<any> {
+  getPerfilTutor(): Observable<Tutor> {
     const headers = this.getAuthHeaders();
-    return this.http.get(`${this.tutorUrl}me/`, { headers });
+    return this.http.get<Tutor>(`${this.tutorUrl}me/`, { headers });
   }
 
-  /**
-   * Atualiza os dados do tutor logado.
-   */
-  atualizarPerfilTutor(dados: any): Observable<any> {
+  atualizarPerfilTutor(dados: any): Observable<Tutor> {
     const headers = this.getAuthHeaders();
-    return this.http.patch(`${this.tutorUrl}me/`, dados, { headers });
+    return this.http.patch<Tutor>(`${this.tutorUrl}me/`, dados, { headers });
   }
 
-  // =====================
-  // ===== CUIDADOR ======
-  // =====================
-
-  /**
-   * Retorna os dados do cuidador logado.
-   */
-  getPerfilCuidador(): Observable<any> {
+  getPetsTutor(): Observable<Pet[]> {
     const headers = this.getAuthHeaders();
-    return this.http.get(`${this.cuidadorUrl}me/`, { headers });
+    return this.http.get<Pet[]>(`${environment.apiUrl}/pets/`, { headers });
   }
 
-  /**
-   * Atualiza os dados do cuidador logado.
-   */
-  atualizarPerfilCuidador(dados: any): Observable<any> {
+  // CUIDADOR
+  getPerfilCuidador(): Observable<Cuidador> {
     const headers = this.getAuthHeaders();
-    return this.http.patch(`${this.cuidadorUrl}me/`, dados, { headers });
+    return this.http.get<Cuidador>(`${this.cuidadorUrl}me/`, { headers });
+  }
+
+  atualizarPerfilCuidador(dados: any): Observable<Cuidador> {
+    const headers = this.getAuthHeaders();
+    return this.http.patch<Cuidador>(`${this.cuidadorUrl}me/`, dados, { headers });
   }
 }

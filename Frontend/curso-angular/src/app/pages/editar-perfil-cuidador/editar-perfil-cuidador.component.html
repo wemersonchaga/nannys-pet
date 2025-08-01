@@ -2,66 +2,58 @@
   <h2>Editar Perfil de Cuidador</h2>
 
   <form [formGroup]="cuidadorForm" (ngSubmit)="salvarAlteracoes()" novalidate>
-
-    <!-- Telefone -->
-    <label for="telefone">Telefone:</label>
+    
+    <!-- Nome -->
+    <label for="nome">Nome:</label>
     <input
-      id="telefone"
+      id="nome"
       type="text"
-      formControlName="telefone"
+      formControlName="nome"
       required
-      placeholder="(84) 91234-5678"
+      placeholder="Digite seu nome"
     />
-    <div class="error" *ngIf="cuidadorForm.get('telefone')?.touched && cuidadorForm.get('telefone')?.invalid">
-      <span *ngIf="cuidadorForm.get('telefone')?.errors?.['required']">
-        Telefone é obrigatório.
-      </span>
-      <span *ngIf="cuidadorForm.get('telefone')?.errors?.['pattern']">
-        Formato inválido. Ex: (84) 91234-5678
-      </span>
+    <div class="error" *ngIf="cuidadorForm.get('nome')?.touched && cuidadorForm.get('nome')?.invalid">
+      Nome é obrigatório.
     </div>
 
-    <!-- Endereço -->
-    <label for="endereco">Endereço:</label>
+    <!-- Sobrenome -->
+    <label for="sobrenome">Sobrenome:</label>
     <input
-      id="endereco"
+      id="sobrenome"
       type="text"
-      formControlName="endereco"
+      formControlName="sobrenome"
       required
-      placeholder="Rua Exemplo, 123 - Bairro"
+      placeholder="Digite seu sobrenome"
     />
-    <div class="error" *ngIf="cuidadorForm.get('endereco')?.touched && cuidadorForm.get('endereco')?.invalid">
-      Endereço é obrigatório.
+    <div class="error" *ngIf="cuidadorForm.get('sobrenome')?.touched && cuidadorForm.get('sobrenome')?.invalid">
+      Sobrenome é obrigatório.
     </div>
 
-    <!-- Descrição -->
-    <label for="descricao">Descrição:</label>
-    <textarea
-      id="descricao"
-      formControlName="descricao"
-      maxlength="500"
-      placeholder="Conte um pouco sobre você e sua experiência com pets..."
-    ></textarea>
-    <div class="info">
-      Máximo de 500 caracteres.
-    </div>
-
-    <!-- Serviços -->
-    <label for="servicos">Serviços oferecidos:</label>
+    <!-- Data de nascimento -->
+    <label for="data_nascimento">Data de Nascimento:</label>
     <input
-      id="servicos"
-      type="text"
-      formControlName="servicos"
-      maxlength="200"
-      placeholder="Ex: Passeio, hospedagem, alimentação"
+      id="data_nascimento"
+      type="date"
+      formControlName="data_nascimento"
     />
-    <div class="info">
-      Máximo de 200 caracteres.
-    </div>
 
-    <!-- Botão -->
+    <!-- Instagram -->
+    <label for="instagram">Instagram:</label>
+    <input
+      id="instagram"
+      type="text"
+      formControlName="instagram"
+      placeholder="@seuusuario"
+    />
+
+    <!-- Botão de salvar -->
     <button type="submit" class="btn" [disabled]="cuidadorForm.invalid || isSubmitting">
-      {{ isSubmitting ? 'Salvando...' : 'Salvar' }}
+      {{ isSubmitting ? 'Salvando...' : 'Salvar Alterações' }}
     </button>
   </form>
+
+  <!-- Mensagem de erro -->
+  <div *ngIf="erroCarregamento" class="erro-carregamento">
+    Não foi possível carregar os dados do perfil. Tente novamente mais tarde.
+  </div>
 </div>

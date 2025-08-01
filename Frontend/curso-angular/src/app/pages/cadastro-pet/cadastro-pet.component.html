@@ -1,1 +1,49 @@
-<p>cadastro-pet works!</p>
+<div class="cadastro-pet-container">
+  <h2 class="title">Cadastro de Pet</h2>
+  <form [formGroup]="petForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+
+    <label>Nome:</label>
+    <input formControlName="nome" type="text" required />
+
+    <label>Espécie:</label>
+    <input formControlName="especie" type="text" required />
+
+    <label>Raça:</label>
+    <input formControlName="raca" type="text" />
+
+    <label>Porte:</label>
+    <select formControlName="porte" required>
+      <option value="pequeno">Pequeno</option>
+      <option value="medio">Médio</option>
+      <option value="grande">Grande</option>
+    </select>
+
+    <label>Idade (em anos):</label>
+    <input formControlName="idade" type="number" min="0" required />
+
+    <label>Gênero:</label>
+    <select formControlName="genero" required>
+      <option value="Macho">Macho</option>
+      <option value="Fêmea">Fêmea</option>
+    </select>
+
+    <label>Castrado:</label>
+    <select formControlName="castrado" required>
+      <option [value]="true">Sim</option>
+      <option [value]="false">Não</option>
+    </select>
+
+    <label>Foto:</label>
+    <input type="file" (change)="onFileSelected($event)" />
+
+    <label>Observações:</label>
+    <textarea formControlName="observacoes"></textarea>
+
+    <button type="submit" [disabled]="loading">
+      {{ loading ? 'Enviando...' : 'Cadastrar Pet' }}
+    </button>
+  </form>
+
+  <p *ngIf="mensagemSucesso" class="mensagem-sucesso">{{ mensagemSucesso }}</p>
+  <p *ngIf="mensagemErro" class="mensagem-erro">{{ mensagemErro }}</p>
+</div>

@@ -26,10 +26,10 @@ export class EditarPerfilCuidadorComponent implements OnInit {
 
   private inicializarFormulario(): void {
     this.cuidadorForm = this.fb.group({
-      telefone: ['', [Validators.required, Validators.pattern(/^\(?\d{2}\)?[\s-]?\d{4,5}-?\d{4}$/)]],
-      endereco: ['', Validators.required],
-      descricao: ['', Validators.maxLength(500)],
-      servicos: ['', Validators.maxLength(200)]
+      nome: ['', Validators.required],
+      sobrenome: ['', Validators.required],
+      data_nascimento: [''],
+      instagram: ['']
     });
   }
 
@@ -38,10 +38,10 @@ export class EditarPerfilCuidadorComponent implements OnInit {
       next: (data) => {
         if (data) {
           this.cuidadorForm.patchValue({
-            telefone: data.telefone || '',
-            endereco: data.endereco || '',
-            descricao: data.descricao || '',
-            servicos: data.servicos || ''
+            nome: data.nome || '',
+            sobrenome: data.sobrenome || '',
+            data_nascimento: data.data_nascimento || '',
+            instagram: data.instagram || ''
           });
         } else {
           this.erroCarregamento = true;

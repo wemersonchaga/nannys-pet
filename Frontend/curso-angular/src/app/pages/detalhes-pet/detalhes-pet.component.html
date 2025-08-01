@@ -1,0 +1,11 @@
+<div *ngIf="pet">
+  <h2>{{ pet.nome }}</h2>
+  <p>Espécie: {{ pet.especie }}</p>
+  <p>Raça: {{ pet.raca || 'Não informado' }}</p>
+  <p>Porte: {{ pet.porte }}</p>
+  <p>Idade: {{ pet.idade }} anos</p>
+  <p>Gênero: {{ pet.genero }}</p>
+  <p>Castrado: {{ pet.castrado ? 'Sim' : 'Não' }}</p>
+  <p>Observações: {{ pet.observacoes || 'Nenhuma' }}</p>
+  <img *ngIf="pet.foto" [src]="pet.foto" alt="Foto do pet" width="200" />
+</div>

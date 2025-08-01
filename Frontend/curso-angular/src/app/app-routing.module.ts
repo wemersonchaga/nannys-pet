@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { FirstComponentComponent } from './components/first-component/first-component.component';
+import { CadastroPetComponent } from './pages/cadastro-pet/cadastro-pet.component'; // ajuste o caminho se necessário
 import { HomeComponent } from './pages/home/home.component';
 import { CadastroTutorComponent } from './pages/cadastro-tutor/cadastro-tutor.component';
 import { CadastroFotoComponent } from './components/cadastro-foto/cadastro-foto.component';
@@ -13,12 +13,15 @@ import { SignupComponent } from './login/signup.component';
 import { AuthGuard } from './services/auth.service';
 import { EditarPerfilTutorComponent } from './pages/editar-perfil-tutor/editar-perfil-tutor.component';
 import { EditarPerfilCuidadorComponent } from './pages/editar-perfil-cuidador/editar-perfil-cuidador.component';
+import { DetalhesPetComponent } from './pages/detalhes-pet/detalhes-pet.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent },
   { path: 'editar-perfil-tutor', component: EditarPerfilTutorComponent },
+  { path: 'pets/cadastrar', component: CadastroPetComponent },
+  { path: 'pets/:id', component: DetalhesPetComponent },
   { path: 'editar-perfil-cuidador', component: EditarPerfilCuidadorComponent },
   { path: 'escolher-perfil', component: EscolherPerfilComponent },
   { path: '', redirectTo: 'login', pathMatch: 'full' },

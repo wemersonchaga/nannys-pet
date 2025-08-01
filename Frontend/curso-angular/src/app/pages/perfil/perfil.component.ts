@@ -10,6 +10,7 @@ import { PerfilService } from '../../services/perfil.service';
 export class PerfilComponent implements OnInit {
   userData: any;
   perfilTipo: 'tutor' | 'cuidador' | 'nenhum' = 'nenhum';
+  pets: any[] = [];
 
   constructor(
     private perfilService: PerfilService,
@@ -27,6 +28,7 @@ export class PerfilComponent implements OnInit {
         if (tutorData && Object.keys(tutorData).length > 0) {
           this.userData = tutorData;
           this.perfilTipo = 'tutor';
+          this.loadPets(); // carrega os pets do tutor
         } else {
           this.loadCuidadorFallback();
         }
@@ -53,6 +55,17 @@ export class PerfilComponent implements OnInit {
         console.error('Erro ao carregar perfil de cuidador:', err);
         this.perfilTipo = 'nenhum';
         this.router.navigate(['/escolher-perfil']);
+      }
+    });
+  }
+
+  private loadPets(): void {
+    this.perfilService.getPetsTutor().subscribe({
+      next: (petsData) => {
+        this.pets = petsData;
+      },
+      error: (err) => {
+        console.error('Erro ao carregar pets do tutor:', err);
       }
     });
   }

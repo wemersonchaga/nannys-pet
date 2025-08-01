@@ -12,6 +12,8 @@ import { environment } from '../../../environments/environment';
 export class CadastroTutorComponent implements OnInit {
   tutorForm!: FormGroup;
   errorMessage = '';
+  successMessage = '';
+  isSubmitting = false;
   usuario: any = null;
 
   constructor(
@@ -52,17 +54,21 @@ export class CadastroTutorComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.errorMessage = '';
+    this.successMessage = '';
     if (!this.tutorForm.valid) {
       this.errorMessage = 'Preencha todos os campos obrigatórios.';
       return;
     }
+
+    this.isSubmitting = true;
 
     const formData = new FormData();
     formData.append('nome', this.usuario?.nome || '');
     formData.append('sobrenome', this.tutorForm.get('sobrenome')?.value);
     formData.append('cpf', this.tutorForm.get('cpf')?.value);
     formData.append('email', this.usuario?.email || '');
-    
+
     const dataNascimento = this.tutorForm.get('data_nascimento')?.value;
     if (dataNascimento) {
       formData.append('data_nascimento', dataNascimento);
@@ -75,11 +81,17 @@ export class CadastroTutorComponent implements OnInit {
 
     this.http.post(`${environment.apiUrl}/tutores/`, formData, options).subscribe({
       next: () => {
-        this.router.navigate(['/inicio']);
+        this.successMessage = 'Cadastro realizado com sucesso!';
+        this.isSubmitting = false;
+
+        setTimeout(() => {
+          this.router.navigate(['/perfil']);
+        }, 2000);
       },
       error: (err) => {
         console.error('Erro ao cadastrar tutor:', err);
         this.errorMessage = 'Erro ao cadastrar tutor. Verifique os dados e tente novamente.';
+        this.isSubmitting = false;
       }
     });
   }

@@ -1,14 +1,24 @@
 
 export interface Cuidador {
+  id: number;
   nome: string;
   sobrenome: string;
-  data_nascimento: string;
   cpf: string;
   email: string;
+  data_nascimento?: string;
   telefone: string;
-  cep: string;
-  numero: string | number;
-  instagram: string;
-  foto_perfil?: File | string;
+  cep?: string;
+  estado?: string;
+  cidade?: string;
+  rua: string;
+  numero?: string;
+  instagram?: string;
   caracteristicas_ids: number[];
+  foto_perfil?: string;
+  caracteristicas?: any[]; // ou um tipo definido se você tiver
+  media_avaliacoes?: string;
+  total_avaliacoes?: string;
+  avaliacoes_recentes?: string;
+
+
 }

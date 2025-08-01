@@ -1,0 +1,45 @@
+.cadastro-pet-container {
+  max-width: 500px;
+  margin: auto;
+  padding: 1rem;
+  background: #f7f7f7;
+  border-radius: 12px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+}
+
+input, select, textarea, button {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 4px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+button {
+  margin-top: 15px;
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.mensagem-sucesso {
+  color: green;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.mensagem-erro {
+  color: red;
+  text-align: center;
+  margin-top: 1rem;
+}

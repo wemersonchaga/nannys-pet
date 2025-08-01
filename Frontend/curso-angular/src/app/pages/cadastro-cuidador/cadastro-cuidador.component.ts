@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';  // IMPORTAR HttpClient
-import { CuidadorService } from '../../services/cuidador.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-cadastro-cuidador',
@@ -11,133 +11,160 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./cadastro-cuidador.component.css']
 })
 export class CadastroCuidadorComponent implements OnInit {
-  cuidadorForm: FormGroup;
-  isSubmitting = false;
+  cuidadorForm!: FormGroup;
+  caracteristicasDisponiveis: any[] = [];
   errorMessage = '';
-  imagePreview: string | ArrayBuffer | null = null;
-  
-  caracteristicasDisponiveis: { id: number, nome: string }[] = [];
+  successMessage = '';
+  isSubmitting = false;
+  usuario: any = null;
 
   constructor(
     private fb: FormBuilder,
-    private cuidadorService: CuidadorService,
+    private http: HttpClient,
     private router: Router,
-    private http: HttpClient  // INJETAR HttpClient aqui
-  ) {
-    this.cuidadorForm = this.fb.group({
-      nome: ['', Validators.required],
-      sobrenome: ['', Validators.required],
-      cpf: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      telefone: ['', Validators.required],
-      data_nascimento: ['', Validators.required],
-      cep: [''],
-      numero: [''],
-      instagram: [''],
-
-      // Se quiser preencher esses campos com dados do CEP, precisa adicioná-los aqui:
-      endereco: [''],  // ex: logradouro
-      cidade: [''],
-      estado: [''],
-
-      foto_perfil: [null],
-      caracteristicas: this.fb.array([])
-    });
-  }
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
-    this.fetchCaracteristicas();
-  }
-  
-  get caracteristicasFormArray() {
-    return this.cuidadorForm.get('caracteristicas') as FormArray;
+    this.cuidadorForm = this.fb.group({
+      nome: [{ value: '', disabled: true }, Validators.required], // só visual
+      email: [{value: '', disabled: true}], // só visual
+      sobrenome: ['', Validators.required],
+      cpf: ['', Validators.required],
+      data_nascimento: [''],
+      telefone: ['', Validators.required],
+      cep: [''],
+      estado: [''],
+      cidade: [''],
+      rua: ['', Validators.required],
+      numero: [''],
+      instagram: [''],
+      caracteristicas: this.fb.array([], Validators.required)
+    });
+
+
+    this.buscarUsuarioLogado();
+    this.carregarCaracteristicas();
   }
 
-  private fetchCaracteristicas(): void {
-    fetch(`${environment.apiUrl}/caracteristicas/`)
-      .then(res => res.json())
-      .then(data => {
-        this.caracteristicasDisponiveis = data;
-        data.forEach(() => this.caracteristicasFormArray.push(new FormControl(false)));
-      })
-      .catch(err => console.error('Erro ao buscar características', err));
-  }
-  
-  onFileSelected(event: Event): void {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) {
-      this.cuidadorForm.patchValue({ foto_perfil: file });
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = reader.result;
-      };
-      reader.readAsDataURL(file);
+ buscarUsuarioLogado(): void {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const headers = new HttpHeaders({ Authorization: `Token ${token}` });
+      this.http.get(`${environment.apiUrl}/usuarios/me/`, { headers }).subscribe({
+        next: (res: any) => {
+          this.usuario = res;
+          this.cuidadorForm.patchValue({
+            nome: res.nome,
+            email: res.email
+          });
+        },
+        error: (err) => {
+          console.error('Erro ao buscar usuário:', err);
+        }
+      });
     }
   }
 
-  onSubmit(): void {
-    if (this.cuidadorForm.invalid) {
-      this.cuidadorForm.markAllAsTouched();
-      return;
-    }
-
-    this.isSubmitting = true;
-    this.errorMessage = '';
-
-    const formValue = this.cuidadorForm.getRawValue();
-
-    const selectedCaracteristicasIds = formValue.caracteristicas
-      .map((checked: boolean, i: number) => checked ? this.caracteristicasDisponiveis[i].id : null)
-      .filter((id: number | null) => id !== null) as number[];
-
-    const formData = new FormData();
-    formData.append('nome', formValue.nome);
-    formData.append('sobrenome', formValue.sobrenome);
-    formData.append('cpf', formValue.cpf);
-    formData.append('email', formValue.email);
-    formData.append('telefone', formValue.telefone);
-    formData.append('data_nascimento', formValue.data_nascimento);
-    formData.append('cep', formValue.cep);
-    formData.append('numero', formValue.numero);
-    formData.append('instagram', formValue.instagram);
-    formData.append('endereco', formValue.endereco || '');
-    formData.append('cidade', formValue.cidade || '');
-    formData.append('estado', formValue.estado || '');
-
-    selectedCaracteristicasIds.forEach(id => formData.append('caracteristicas_ids', id.toString()));
-
-    if (formValue.foto_perfil) {
-      formData.append('foto_perfil', formValue.foto_perfil);
-    }
-
-    this.cuidadorService.createCuidador(formData).subscribe({
-      next: () => {
-        this.isSubmitting = false;
-        this.router.navigate(['/perfil']);
-      },
-      error: (err) => {
-        this.errorMessage = 'Erro ao criar perfil. Tente novamente.';
-        console.error(err);
-        this.isSubmitting = false;
-      }
+  carregarCaracteristicas(): void {
+    this.http.get<any[]>(`${environment.apiUrl}/caracteristicas/`).subscribe(data => {
+      this.caracteristicasDisponiveis = data;
+      const formArray = this.cuidadorForm.get('caracteristicas') as FormArray;
+      formArray.clear();
+      data.forEach(() => formArray.push(this.fb.control(false)));
     });
   }
 
   buscarEnderecoPorCep(): void {
-    const cep = this.cuidadorForm.get('cep')?.value;
-    if (cep && cep.length === 8) {
-      this.http.get<any>(`https://viacep.com.br/ws/${cep}/json/`).subscribe(
-        data => {
-          this.cuidadorForm.patchValue({
-            endereco: data.logradouro,
-            cidade: data.localidade,
-            estado: data.uf
-          });
-        },
-        error => {
-          console.error('Erro ao buscar endereço pelo CEP', error);
-        }
-      );
+    const cepControl = this.cuidadorForm.get('cep');
+    if (!cepControl) return;
+
+    const cep = cepControl.value?.replace(/\D/g, '') || '';
+
+    if (cep.length !== 8) {
+      alert('CEP inválido.');
+      return;
     }
+
+    this.http.get<any>(`https://viacep.com.br/ws/${cep}/json/`).subscribe({
+      next: (data) => {
+        if (data.erro) {
+          alert('CEP não encontrado.');
+          return;
+        }
+
+        this.cuidadorForm.patchValue({
+          rua: data.logradouro || '',
+          cidade: data.localidade || '',
+          estado: data.uf || ''
+        });
+      },
+      error: () => {
+        alert('Erro ao buscar endereço. Verifique sua conexão.');
+      }
+    });
+  }
+
+
+  onSubmit(): void {
+    this.errorMessage = '';
+    this.successMessage = '';
+    if (!this.cuidadorForm.valid) {
+      this.errorMessage = 'Preencha todos os campos obrigatórios.';
+      return;
+    }
+
+    this.isSubmitting = true;
+
+    const formData = new FormData();
+    // Campos do formulário
+    formData.append('nome', this.usuario?.nome || '');
+    formData.append('sobrenome', this.cuidadorForm.get('sobrenome')?.value);
+    formData.append('cpf', this.cuidadorForm.get('cpf')?.value);
+    formData.append('email', this.usuario?.email || '');
+    formData.append('telefone', this.cuidadorForm.get('telefone')?.value);
+    const dataNascimento = this.cuidadorForm.get('data_nascimento')?.value;
+    if (dataNascimento) {
+      formData.append('data_nascimento', dataNascimento);
+    };
+    formData.append('cep',this.cuidadorForm.get('cep')?.value);
+    formData.append('estado',this.cuidadorForm.get('estado')?.value);
+    formData.append('cidade',this.cuidadorForm.get('cidade')?.value);
+    formData.append('rua',this.cuidadorForm.get('rua')?.value);
+    formData.append('numero',this.cuidadorForm.get('numero')?.value);
+    formData.append('instagram',this.cuidadorForm.get('instagram')?.value);
+
+    // Características
+    const caracteristicasSelecionadas: number[] = this.cuidadorForm.value.caracteristicas
+      .map((checked: boolean, i: number) => checked ? this.caracteristicasDisponiveis[i].id : null)
+      .filter((id: number | null) => id !== null) as number[];
+
+    caracteristicasSelecionadas.forEach(id => {
+      formData.append('caracteristicas_ids', id.toString());
+    });
+
+    const token = localStorage.getItem('token');
+    const options = token
+      ? { headers: new HttpHeaders({ Authorization: `Token ${token}` }) }
+      : undefined;
+
+    // Envio para API
+    this.http.post(`${environment.apiUrl}/cuidadores/`, formData, options).subscribe({
+      next: () => {
+        this.successMessage = 'Cadastro realizado com sucesso!';
+        this.isSubmitting = false;
+        setTimeout(() => {
+          this.router.navigate(['/perfil']);
+        }, 2000);
+      },
+      error: (err) => {
+        console.error('Erro ao cadastrar cuidador:', err);
+        this.errorMessage = 'Erro ao cadastrar cuidador. Verifique os dados e tente novamente.';
+        this.isSubmitting = false;
+      }
+    });
+  }
+  get caracteristicasControls() {
+    return (this.cuidadorForm.get('caracteristicas') as FormArray).controls;
   }
 }

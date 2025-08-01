@@ -8,7 +8,7 @@
         <div class="form-row">
           <div class="form-group">
             <label for="nome">Nome</label>
-            <input type="text" id="nome" formControlName="nome" [disabled]="true" />
+            <input type="text" id="nome" formControlName="nome" />
           </div>
 
           <div class="form-group">
@@ -20,7 +20,7 @@
         <div class="form-row">
           <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" id="email" formControlName="email" [disabled]="true" />
+            <input type="email" id="email" formControlName="email" />
           </div>
 
           <div class="form-group">
@@ -34,12 +34,20 @@
           <input type="date" id="data_nascimento" formControlName="data_nascimento" />
         </div>
 
+        <!-- Mensagem de sucesso -->
+        <div *ngIf="successMessage" class="alert alert-success">
+          {{ successMessage }}
+        </div>
+
+        <!-- Mensagem de erro -->
         <div *ngIf="errorMessage" class="alert alert-danger">
           {{ errorMessage }}
         </div>
 
         <div class="submit-container">
-          <button type="submit" class="submit-btn" [disabled]="tutorForm.invalid">Cadastrar</button>
+          <button type="submit" class="submit-btn" [disabled]="isSubmitting">
+            {{ isSubmitting ? 'Enviando...' : 'Cadastrar' }}
+          </button>
         </div>
       </form>
     </div>
