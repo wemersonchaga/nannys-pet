@@ -11,7 +11,7 @@
 
         <ul class="nav-menu" [class.is-open]="menuAberto">
             <li class="nav-item"><a routerLink="/home" class="nav-link" (click)="fecharMenu()">Home</a></li>
-            <li class="nav-item"><a routerLink="/cuidadores" class="nav-link" (click)="fecharMenu()">Nossos Cuidadores</a></li>
+            <li class="nav-item"><a routerLink="/buscar-cuidador" class="nav-link" (click)="fecharMenu()">Nossos Cuidadores</a></li>
 
             <ng-container *ngIf="!(authService.isLoggedIn() | async)">
                 <li class="nav-item dropdown">

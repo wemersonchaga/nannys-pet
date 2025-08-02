@@ -4,7 +4,9 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../services/auth.service';
-
+import { CaracteristicasService } from '../../services/caracteristicas.service';
+import { Caracteristicas } from '../../Caracteristicas';
+import { Cuidador } from '../../Cuidador';
 @Component({
   selector: 'app-cadastro-cuidador',
   templateUrl: './cadastro-cuidador.component.html',
@@ -12,13 +14,14 @@ import { AuthService } from '../../services/auth.service';
 })
 export class CadastroCuidadorComponent implements OnInit {
   cuidadorForm!: FormGroup;
-  caracteristicasDisponiveis: any[] = [];
+  caracteristicasDisponiveis: Caracteristicas[] = [];
   errorMessage = '';
   successMessage = '';
   isSubmitting = false;
   usuario: any = null;
 
   constructor(
+    private caracteristicasService: CaracteristicasService,
     private fb: FormBuilder,
     private http: HttpClient,
     private router: Router,
@@ -44,7 +47,12 @@ export class CadastroCuidadorComponent implements OnInit {
 
 
     this.buscarUsuarioLogado();
-    this.carregarCaracteristicas();
+    this.caracteristicasService.getCaracteristicas().subscribe(data => {
+      this.caracteristicasDisponiveis = data;
+      const formArray = this.cuidadorForm.get('caracteristicas') as FormArray;
+      formArray.clear();
+      data.forEach(() => formArray.push(this.fb.control(false)));
+    });
   }
 
  buscarUsuarioLogado(): void {
@@ -64,15 +72,6 @@ export class CadastroCuidadorComponent implements OnInit {
         }
       });
     }
-  }
-
-  carregarCaracteristicas(): void {
-    this.http.get<any[]>(`${environment.apiUrl}/caracteristicas/`).subscribe(data => {
-      this.caracteristicasDisponiveis = data;
-      const formArray = this.cuidadorForm.get('caracteristicas') as FormArray;
-      formArray.clear();
-      data.forEach(() => formArray.push(this.fb.control(false)));
-    });
   }
 
   buscarEnderecoPorCep(): void {

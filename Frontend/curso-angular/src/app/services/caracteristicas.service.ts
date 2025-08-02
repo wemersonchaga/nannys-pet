@@ -2,18 +2,18 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Caracteristicas } from '../Caracteristicas';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CaracteristicasService {
 
-  
-  url = 'http://127.0.0.1:8000/api/v1/';
+  private url = `${environment.apiUrl}`;
 
   constructor(private http: HttpClient) { }
 
   getCaracteristicas(): Observable<Caracteristicas[]> {
-    return this.http.get<Caracteristicas[]>(this.url + 'caracteristicas/');
+    return this.http.get<Caracteristicas[]>(`${environment.apiUrl}/caracteristicas/`);
   }
 }

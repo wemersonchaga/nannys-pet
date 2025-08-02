@@ -1,3 +1,4 @@
+import { Caracteristicas } from "./Caracteristicas";
 
 export interface Cuidador {
   id: number;
@@ -5,20 +6,18 @@ export interface Cuidador {
   sobrenome: string;
   cpf: string;
   email: string;
-  data_nascimento?: string;
+  data_nascimento?: string | null;
   telefone: string;
   cep?: string;
   estado?: string;
   cidade?: string;
   rua: string;
   numero?: string;
-  instagram?: string;
+  instagram?: string | null;
   caracteristicas_ids: number[];
   foto_perfil?: string;
-  caracteristicas?: any[]; // ou um tipo definido se você tiver
+  caracteristicas: Caracteristicas[]; // <-- array de objetos, não só IDs
   media_avaliacoes?: string;
   total_avaliacoes?: string;
   avaliacoes_recentes?: string;
-
-
 }

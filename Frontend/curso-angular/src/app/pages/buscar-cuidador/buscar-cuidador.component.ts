@@ -1,163 +1,116 @@
 import { Component, OnInit } from '@angular/core';
 import { CuidadorService } from '../../services/cuidador.service';
-import { Cuidador } from '../../Cuidador';
 import { CaracteristicasService } from '../../services/caracteristicas.service';
-import { Filtros } from '../../Filtros';
+import { Cuidador } from '../../Cuidador';
 import { Caracteristicas } from '../../Caracteristicas';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-buscar-cuidador',
   templateUrl: './buscar-cuidador.component.html',
-  styleUrl: './buscar-cuidador.component.css'
+  styleUrls: ['./buscar-cuidador.component.css']
 })
-export class BuscarCuidadorComponent implements OnInit{
-  capacidadeAdestramento: boolean= false;
-  estudanteVeterinaria: boolean =false;
-  medicoVeterinaria: boolean=false;
-  aceitaMultiplosPets: boolean=false;
-  cuidadorComum: boolean=false;
-  petAte5kg: boolean=false;
-  pet5kgA10kg: boolean=false;
-  pet10kgA20kg: boolean=false;
-  pet20kgA40kg: boolean=false;
-  soPetCastrado: boolean=false;
-  petNaoCastrado: boolean=false;
-  petFemea: boolean=false;
-  petMacho: boolean=false;
-  medicacaoOral: boolean=false;
-  medicacaoInjetavel: boolean=false;
-  
-  
-  
-  
-  cuidadors: Cuidador[]=[];
-  caracteristicasSelecionadas: string[] = [];
-  cuidadoresFiltrados: Cuidador[]=[]
-  
+export class BuscarCuidadorComponent implements OnInit {
 
-  constructor(private cuidadorService: CuidadorService){}
+  todosCuidadores: Cuidador[] = [];
+  cuidadoresFiltrados: Cuidador[] = [];
+  caracteristicasForm!: FormGroup;
+  caracteristicasDisponiveis: Caracteristicas[] = [];
+  caracteristicasSelecionadas: number[] = [];
+  submitClicado: boolean = false;
 
-  ngOnInit() {
-    this.getCuidadors();
+  constructor(
+    private cuidadorService: CuidadorService,
+    private caracteristicasService: CaracteristicasService,
+    private fb: FormBuilder
+  ) {}
+
+  ngOnInit(): void {
+    this.listarTodosCuidadores();
+    this.carregarCaracteristicas();
   }
 
-  getCuidadors() {
-    this.cuidadorService.getCuidadors().subscribe(data => {
-      this.cuidadors = data;
-      console.log(this.cuidadors)
-
+  listarTodosCuidadores(): void {
+    this.cuidadorService.getCuidadores().subscribe({
+      next: (cuidadores) => {
+        this.todosCuidadores = cuidadores;
+        this.cuidadoresFiltrados = cuidadores;
+        this.submitClicado = false;
+      },
+      error: (err) => {
+        console.error('Erro ao carregar cuidadores:', err);
+      }
     });
   }
-  
-  filtrarCuidadores() {
-    this.cuidadoresFiltrados = [];
-    console.log('Cuidadores Filtrados:', this.cuidadoresFiltrados);
+
+  carregarCaracteristicas() {
+    this.caracteristicasService.getCaracteristicas().subscribe({
+      next: (caracteristicas) => {
+        this.caracteristicasDisponiveis = caracteristicas;
+        this.caracteristicasForm = this.fb.group({
+          cep: [''],
+          disponivel: [false],
+          caracteristicas: this.fb.array(this.caracteristicasDisponiveis.map(() => false))
+        });
+
+        this.caracteristicasForm.get('caracteristicas')?.valueChanges.subscribe((val: boolean[]) => {
+          this.caracteristicasSelecionadas = this.caracteristicasDisponiveis
+            .filter((_, index) => val[index])
+            .map(caract => caract.id);
+        });
+      },
+      error: (err) => console.error('Erro ao carregar características:', err)
+    });
   }
-  
-  
-  toggleCaracteristica(caracteristica: string) {
-    // Toggle a característica
-    const index = this.caracteristicasSelecionadas.indexOf(caracteristica);
+
+  getNomeCaracteristicaPorId(id: number): string {
+    const caract = this.caracteristicasDisponiveis.find(c => c.id === id);
+    return caract ? caract.nome : 'Desconhecido';
+  }
+
+  toggleCaracteristica(id: number) {
+    const index = this.caracteristicasSelecionadas.indexOf(id);
     if (index === -1) {
-      // Se não estiver na lista, adiciona
-      this.caracteristicasSelecionadas.push(caracteristica);
+      this.caracteristicasSelecionadas.push(id);
     } else {
-      // Se estiver na lista, remove
       this.caracteristicasSelecionadas.splice(index, 1);
     }
   }
 
+  submit(): void {
+    this.submitClicado = true;
 
-  
-  toggleCapacidadeAdestramento() {
-    this.capacidadeAdestramento = !this.capacidadeAdestramento;
-    this.toggleCaracteristica('capacidade_adestramento');
-    console.log('Capacidade de Adestramento:', this.capacidadeAdestramento);
+    // Obtem valores do formulário
+    const cep = this.caracteristicasForm.get('cep')?.value;
+    const disponivel = this.caracteristicasForm.get('disponivel')?.value;
+
+    const filtros: any = {};
+
+    if (this.caracteristicasSelecionadas.length > 0) {
+      filtros.caracteristicas = this.caracteristicasSelecionadas;
+    }
+
+    if (cep && cep.trim() !== '') {
+      filtros.cep = cep.trim();
+    }
+
+    filtros.disponivel = disponivel; // Pode ser true ou false
+
+    // Se não houver filtros selecionados, mostra todos
+    if (!filtros.caracteristicas && !filtros.cep && !filtros.disponivel) {
+      this.cuidadoresFiltrados = this.todosCuidadores;
+      return;
+    }
+
+    console.log('Filtros enviados:', filtros);
+
+    this.cuidadorService.getCuidadoresFiltrados(filtros).subscribe({
+      next: (data) => {
+        this.cuidadoresFiltrados = data;
+      },
+      error: (err) => {
+        console.error('Erro ao filtrar cuidadores:', err);
+      }
+    });
   }
-
-  toggleEstudanteVeterinaria() {
-    this.estudanteVeterinaria = !this.estudanteVeterinaria;
-    this.toggleCaracteristica('estudante_de_veterinaria');
-  }
-
-  toggleMedicoVeterinaria() {
-    this.medicoVeterinaria = !this.medicoVeterinaria;
-    this.toggleCaracteristica('medico_veterinario');
-  }
-
-  toggleAceitaMultiplosPets() {
-    this.aceitaMultiplosPets = !this.aceitaMultiplosPets;
-    this.toggleCaracteristica('aceita_multiplos_pets');
-  }
-
-  toggleCuidadorComum() {
-    this.cuidadorComum = !this.cuidadorComum;
-    this.toggleCaracteristica('cuidador_comum');
-  }
-
-  togglePetAte5kg() {
-    this.petAte5kg = !this.petAte5kg;
-    this.toggleCaracteristica('pet_ate_5kg');
-  }
-
-  togglePet5kgA10kg() {
-    this.pet5kgA10kg = !this.pet5kgA10kg;
-    this.toggleCaracteristica('pet_5kg_a_10kg');
-  }
-
-  togglePet10kgA20kg() {
-    this.pet10kgA20kg = !this.pet10kgA20kg;
-    this.toggleCaracteristica('pet_10kg_a_20kg');
-  }
-
-  togglePet20kgA40kg() {
-    this.pet20kgA40kg = !this.pet20kgA40kg;
-    this.toggleCaracteristica('pet_20kg_a_40kg');
-  }
-
-  toggleSoPetCastrado() {
-    this.soPetCastrado = !this.soPetCastrado;
-    this.toggleCaracteristica('so_pet_castrado');
-  }
-
-  togglePetNaoCastrado() {
-    this.petNaoCastrado = !this.petNaoCastrado;
-    this.toggleCaracteristica('pet_nao_castrado');
-  }
-
-  togglePetFemea() {
-    this.petFemea = !this.petFemea;
-    this.toggleCaracteristica('pet_femea');
-  }
-
-  togglePetMacho() {
-    this.petMacho = !this.petMacho;
-    this.toggleCaracteristica('pet_macho');
-  }
-
-  toggleMedicacaoOral() {
-    this.medicacaoOral = !this.medicacaoOral;
-    this.toggleCaracteristica('medicacao_oral');
-  }
-
-  toggleMedicacaoInjetavel() {
-    this.medicacaoInjetavel = !this.medicacaoInjetavel;
-    this.toggleCaracteristica('medicacao_injetavel');
-  }
-
-  submitClicado: boolean = false;
-  submit(){
-      this.submitClicado = true;
-      this.filtrarCuidadores();
-      console.log('Características Selecionadas:', this.caracteristicasSelecionadas);
-  }
-    
-
-  }
-
-    
-  
-
-
-
-
+}

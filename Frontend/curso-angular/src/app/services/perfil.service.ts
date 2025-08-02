@@ -4,18 +4,8 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Tutor } from '../Tutor';       // ajuste o caminho conforme seu projeto
 import { Cuidador } from '../Cuidador'; // ajuste o caminho conforme seu projeto
+import { Pet } from '../Pet';       // ajuste o caminho conforme seu projeto
 
-// Interface básica para Pet, ajuste campos conforme seu backend
-export interface Pet {
-  id: number;
-  nome: string;
-  especie: string;
-  raca?: string;
-  porte?: string;
-  idade?: number;
-  foto?: string;
-  // outros campos que você usar
-}
 
 @Injectable({
   providedIn: 'root'

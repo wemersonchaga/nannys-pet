@@ -1,64 +1,90 @@
+.filtro {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
 
-.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Tornar o container ocupar 100% da altura da viewport */
-  }
-  
-  .box-filtro {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around; /* Ou 'space-between', dependendo da preferência de espaçamento */
-    max-width: 1000px; /* Defina o valor desejado para o máximo de largura do box-filtro */
-  }
+.filtro h2 {
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+  color: #333;
+}
 
 .form-group {
-    display: flex;
-    flex-wrap: wrap; /* Permite que os elementos se movam para a próxima linha se necessário */
-    gap: 5px; /* Adiciona espaço entre os grupos de entrada */
+  margin-bottom: 15px;
 }
 
-button.selecionado {
-    background-color: #D2657F; /* ou a cor desejada */
-    color: white; /* ou a cor desejada */
-  }
-
-.central {
-    width: calc(33.33% - 10px); /* Calcula 33.33% da largura com margem de 5px em cada lado */
-    
+.form-group label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6px;
+  color: #444;
 }
 
-button{
-    
-    height: 30px;
-    border-radius: 20px;
-    background-color: 233, 236, 239;
-    position: center;
-    color: #5f6062;
-    border: none;
-    margin: 5px 10px 15px 0; /* Adicione margens para espaçamento entre os botões */
-    width: calc(25% - 10px); 
+.form-group input[type="text"] {
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
 }
 
-.submit-group {
-    width: 100%;
-    text-align: center;
-  }
-
-.submit{
-    background-color: #D2657F;
-    width: 180px;
-    height: 30px;
-    border-radius: 10px;
-    color: white;
-    border-color: #D2657F;
-
+.form-group input[type="text"]:focus {
+  border-color: #007bff;
+  outline: none;
 }
 
-
-.container .form-group button {
-    font-family: 'Inter', sans-serif;
-    color: #5f6062;
+.caracteristicas-lista label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  cursor: pointer;
+  user-select: none;
+  color: #555;
 }
 
+.caracteristicas-lista input[type="checkbox"] {
+  margin-right: 8px;
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+.cuidador-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.cuidador-card h3 {
+  margin-top: 0;
+  color: #222;
+}
+
+.cuidador-card p {
+  margin: 4px 0;
+  color: #555;
+  font-size: 0.95rem;
+}

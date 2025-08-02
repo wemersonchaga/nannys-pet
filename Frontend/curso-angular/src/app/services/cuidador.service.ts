@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Cuidador } from '../Cuidador';
 import { Caracteristicas } from '../Caracteristicas';
 import { environment } from '../../environments/environment';
@@ -14,34 +14,40 @@ export class CuidadorService {
 
   constructor(private http: HttpClient) { }
 
-  createCuidador(formData: FormData): Observable<any> {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      return throwError(() => new Error('Token não encontrado.'));
-    }
-    const headers = new HttpHeaders({
-      'Authorization': `Token ${token}`
-    });
-    return this.http.post<any>(this.baseUrl, formData, { headers });
+  // Criação de cuidador (com FormData)
+  createCuidador(formData: FormData): Observable<Cuidador> {
+    return this.http.post<Cuidador>(this.baseUrl, formData);
   }
 
-  getCuidadors(): Observable<Cuidador[]> {
+  // Listar todos os cuidadores (autenticado via interceptor)
+  getCuidadores(): Observable<Cuidador[]> {
     return this.http.get<Cuidador[]>(this.baseUrl);
   }
 
-  getCaracteristicasDoCuidador(cuidadorId: number): Observable<Caracteristicas> {
-    const url = `${this.baseUrl}${cuidadorId}/caracteristicas`;
-    return this.http.get<Caracteristicas>(url);
+  // Buscar as características de um cuidador específico
+  getCaracteristicasDoCuidador(cuidadorId: number): Observable<Caracteristicas[]> {
+    const url = `${this.baseUrl}${cuidadorId}/caracteristicas/`;
+    return this.http.get<Caracteristicas[]>(url);
   }
 
-  getCuidadoresFiltrados(filtros: any): Observable<Cuidador[]> {
-    const url = `${environment.apiUrl}/cuidadores-filtrados/`;
+  // Filtrar cuidadores por características, cep e disponível
+  getCuidadoresFiltrados(filtros: { caracteristicas?: number[], cep?: string, disponivel?: boolean }): Observable<Cuidador[]> {
     let params = new HttpParams();
-    for (const key in filtros) {
-      if (filtros.hasOwnProperty(key)) {
-        params = params.set(key, filtros[key]);
-      }
+
+    if (filtros.caracteristicas && filtros.caracteristicas.length > 0) {
+      filtros.caracteristicas.forEach(id => {
+        params = params.append('caracteristicas', id.toString());
+      });
     }
-    return this.http.get<Cuidador[]>(url, { params });
+
+    if (filtros.cep) {
+      params = params.set('cep', filtros.cep);
+    }
+
+    if (filtros.disponivel !== undefined) {
+      params = params.set('disponivel', filtros.disponivel.toString());
+    }
+
+    return this.http.get<Cuidador[]>(`${this.baseUrl}filtrar/`, { params });
   }
 }
