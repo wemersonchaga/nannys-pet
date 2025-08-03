@@ -4,4 +4,6 @@ export interface Tutor{
     cpf: string;
     email: string;
     data_nascimento: Date;
+    foto_perfil?: string;
+
 }

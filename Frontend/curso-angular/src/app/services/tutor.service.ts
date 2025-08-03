@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Tutor } from '../Tutor';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TutorService {
 
-  private url = 'https://nannys-backend.onrender.com/api/';
+  private url = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 

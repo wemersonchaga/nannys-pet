@@ -7,7 +7,7 @@
 
 .image-column {
     flex: 1;
-    background: url('/assets/img/cao2.png') no-repeat center center;
+    background: url('/assets/img/caes.png') no-repeat center center;
     background-size: cover;
     display: none; /* Escondido em telas pequenas */
 }

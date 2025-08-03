@@ -3,7 +3,11 @@
 
   <!-- Imagem de perfil (Tutor ou Cuidador) -->
   <div class="text-center mb-3">
-    <img *ngIf="userData?.foto_perfil" [src]="userData.foto_perfil" alt="Foto de perfil" class="img-thumbnail rounded-circle" width="150" height="150" />
+    <img 
+    [src]="userData?.foto_perfil || 'https://nannys-backend.onrender.com/media/defaults/avatar_padrao.png'" 
+    alt="Foto de perfil" 
+    class="img-thumbnail rounded-circle" 
+    width="150" height="150" />
   </div>
 
   <!-- Exibe informações do Tutor -->
