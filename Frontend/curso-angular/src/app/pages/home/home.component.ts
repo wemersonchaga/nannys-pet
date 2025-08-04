@@ -72,6 +72,6 @@ export class HomeComponent implements OnInit {
   }
 
   navigateToCadastro(tipo: 'tutor' | 'cuidador'): void {
-    this.router.navigate([`/cadastro-${tipo}`]);
+    this.router.navigate([`/signup`]);
   }
 }
