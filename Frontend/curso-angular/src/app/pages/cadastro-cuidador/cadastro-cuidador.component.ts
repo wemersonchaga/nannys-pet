@@ -164,7 +164,7 @@ export class CadastroCuidadorComponent implements OnInit {
         // ✅ Mensagem de sucesso
         alert('Cadastro realizado com sucesso!');
         // ✅ Redirecionar para a página inicial ou dashboard
-        this.router.navigate(['/home']); // ou outra rota, como 'perfil'
+        this.router.navigate(['/perfil']); // ou outra rota, como 'perfil'
         },
         error: (err) => {
           console.error(err);

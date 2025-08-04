@@ -2,57 +2,89 @@
   <h2>Editar Perfil de Cuidador</h2>
 
   <form [formGroup]="cuidadorForm" (ngSubmit)="salvarAlteracoes()" novalidate>
-    
+
     <!-- Nome -->
     <label for="nome">Nome:</label>
-    <input
-      id="nome"
-      type="text"
-      formControlName="nome"
-      required
-      placeholder="Digite seu nome"
-    />
-    <div class="error" *ngIf="cuidadorForm.get('nome')?.touched && cuidadorForm.get('nome')?.invalid">
-      Nome é obrigatório.
-    </div>
+    <input id="nome" type="text" formControlName="nome" placeholder="Digite seu nome" required />
 
     <!-- Sobrenome -->
     <label for="sobrenome">Sobrenome:</label>
-    <input
-      id="sobrenome"
-      type="text"
-      formControlName="sobrenome"
-      required
-      placeholder="Digite seu sobrenome"
-    />
-    <div class="error" *ngIf="cuidadorForm.get('sobrenome')?.touched && cuidadorForm.get('sobrenome')?.invalid">
-      Sobrenome é obrigatório.
-    </div>
+    <input id="sobrenome" type="text" formControlName="sobrenome" placeholder="Digite seu sobrenome" required />
+
+    <!-- E-mail -->
+    <label for="email">E-mail:</label>
+    <input id="email" type="email" formControlName="email" placeholder="exemplo@email.com" />
+
+    <!-- CPF -->
+    <label for="cpf">CPF:</label>
+    <input id="cpf" type="text" formControlName="cpf" placeholder="000.000.000-00" mask="000.000.000-00" />
+
+    <!-- Telefone -->
+    <label for="telefone">Telefone:</label>
+    <input id="telefone" type="text" formControlName="telefone" placeholder="(00) 00000-0000" mask="(00) 00000-0000" />
 
     <!-- Data de nascimento -->
     <label for="data_nascimento">Data de Nascimento:</label>
-    <input
-      id="data_nascimento"
-      type="date"
-      formControlName="data_nascimento"
-    />
+    <input id="data_nascimento" type="date" formControlName="data_nascimento" />
 
     <!-- Instagram -->
     <label for="instagram">Instagram:</label>
-    <input
-      id="instagram"
-      type="text"
-      formControlName="instagram"
-      placeholder="@seuusuario"
-    />
+    <input id="instagram" type="text" formControlName="instagram" placeholder="@usuario" />
 
-    <!-- Botão de salvar -->
-    <button type="submit" class="btn" [disabled]="cuidadorForm.invalid || isSubmitting">
+    <!-- Descrição -->
+    <label for="descricao">Descrição:</label>
+    <textarea id="descricao" formControlName="descricao" rows="3" placeholder="Fale um pouco sobre você..."></textarea>
+
+    <!-- Endereço -->
+    <label for="cep">CEP:</label>
+    <input id="cep" type="text" formControlName="cep" placeholder="00000-000" mask="00000-000" />
+
+    <label for="estado">Estado:</label>
+    <input id="estado" type="text" formControlName="estado" placeholder="Estado" />
+
+    <label for="cidade">Cidade:</label>
+    <input id="cidade" type="text" formControlName="cidade" placeholder="Cidade" />
+
+    <label for="rua">Rua:</label>
+    <input id="rua" type="text" formControlName="rua" placeholder="Rua" />
+
+    <label for="numero">Número:</label>
+    <input id="numero" type="text" formControlName="numero" placeholder="Número" />
+
+    <!-- Preço diária -->
+    <label for="preco_diaria">Preço da diária (R$):</label>
+    <input id="preco_diaria" type="number" formControlName="preco_diaria" step="0.01" />
+
+    <!-- Características -->
+    <label>Características:</label>
+    <div *ngFor="let caracteristica of listaCaracteristicas">
+      <input
+        type="checkbox"
+        [value]="caracteristica.id"
+        (change)="onChangeCaracteristicas($event)"
+        [checked]="cuidadorForm.value.caracteristicas_ids?.includes(caracteristica.id)"
+      />
+      {{ caracteristica.nome }}
+    </div>
+
+    <!-- Portes Aceitos -->
+    <label>Porte dos Pets Aceitos:</label>
+    <div *ngFor="let porte of listaPortes">
+      <input
+        type="checkbox"
+        [value]="porte.id"
+        (change)="onChangePortes($event)"
+        [checked]="cuidadorForm.value.portes_aceitos?.includes(porte.id)"
+      />
+      {{ porte.nome }}
+    </div>
+
+    <!-- Botão -->
+    <button type="submit" [disabled]="cuidadorForm.invalid || isSubmitting">
       {{ isSubmitting ? 'Salvando...' : 'Salvar Alterações' }}
     </button>
   </form>
 
-  <!-- Mensagem de erro -->
   <div *ngIf="erroCarregamento" class="erro-carregamento">
     Não foi possível carregar os dados do perfil. Tente novamente mais tarde.
   </div>

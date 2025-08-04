@@ -21,14 +21,20 @@ export class PerfilComponent implements OnInit {
     this.loadUserData();
   }
 
+  get portesAceitosFormatados(): string {
+    if (!this.userData || !this.userData.portes_aceitos) {
+      return '';
+    }
+    return this.userData.portes_aceitos.map((p: any) => p.nome).join(', ');
+  }
+
   loadUserData(): void {
-    // Tenta carregar perfil de tutor
     this.perfilService.getPerfilTutor().subscribe({
       next: (tutorData) => {
-        if (tutorData && Object.keys(tutorData).length > 0) {
+        if (tutorData && tutorData.id) {
           this.userData = tutorData;
           this.perfilTipo = 'tutor';
-          this.loadPets(); // carrega os pets do tutor
+          this.loadPets();
         } else {
           this.loadCuidadorFallback();
         }

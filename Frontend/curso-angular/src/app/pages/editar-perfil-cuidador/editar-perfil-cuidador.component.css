@@ -1,49 +1,102 @@
+/* CSS responsivo e bonito para formulário */
 .form-container {
-  max-width: 600px;
-  margin: auto;
-  padding: 1rem;
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
 }
 
-label {
+.form-container h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 24px;
+  font-size: 28px;
+}
+
+form label {
   display: block;
-  margin-top: 1rem;
-  font-weight: bold;
-}
-
-input, textarea {
-  width: 100%;
-  padding: 0.5rem;
-  margin-top: 0.2rem;
-  box-sizing: border-box;
-}
-
-textarea {
-  resize: vertical;
-  min-height: 100px;
-}
-
-.error {
-  color: #c0392b;
-  font-size: 0.875rem;
-}
-
-.info {
-  font-size: 0.75rem;
+  margin-top: 16px;
+  font-weight: 600;
   color: #555;
-  margin-top: 0.2rem;
 }
 
-.btn {
-  margin-top: 1.5rem;
-  padding: 0.75rem 1.5rem;
-  background-color: #2ecc71;
+form input,
+form textarea {
+  width: 100%;
+  padding: 10px 14px;
+  margin-top: 6px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: border 0.3s;
+}
+
+form input:focus,
+form textarea:focus {
+  border-color: #4f46e5;
+  outline: none;
+}
+
+form textarea {
+  resize: vertical;
+}
+
+form div {
+  margin-top: 8px;
+}
+
+form button {
+  margin-top: 24px;
+  padding: 12px 20px;
+  width: 100%;
+  background-color: #4f46e5;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.btn:disabled {
-  background-color: #aaa;
+form button:disabled {
+  background-color: #a5b4fc;
   cursor: not-allowed;
+}
+
+form button:hover:not(:disabled) {
+  background-color: #4338ca;
+}
+
+.erro-carregamento {
+  margin-top: 20px;
+  color: #b91c1c;
+  background-color: #fee2e2;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+  .form-container {
+    padding: 20px;
+  }
+
+  form label {
+    font-size: 14px;
+  }
+
+  form input,
+  form textarea {
+    font-size: 14px;
+  }
+
+  form button {
+    font-size: 15px;
+  }
 }

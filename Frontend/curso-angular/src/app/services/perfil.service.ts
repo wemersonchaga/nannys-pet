@@ -2,10 +2,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { Tutor } from '../Tutor';       // ajuste o caminho conforme seu projeto
-import { Cuidador } from '../Cuidador'; // ajuste o caminho conforme seu projeto
-import { Pet } from '../Pet';       // ajuste o caminho conforme seu projeto
 
+import { Tutor } from '../Tutor';         // ajuste o caminho conforme sua estrutura
+import { Cuidador } from '../Cuidador';   // ajuste o caminho conforme sua estrutura
+import { Pet } from '../Pet';             // ajuste o caminho conforme sua estrutura
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +13,7 @@ import { Pet } from '../Pet';       // ajuste o caminho conforme seu projeto
 export class PerfilService {
   private tutorUrl = `${environment.apiUrl}/tutores/`;
   private cuidadorUrl = `${environment.apiUrl}/cuidadores/`;
+  private petsUrl = `${environment.apiUrl}/pets/`;
 
   constructor(private http: HttpClient) {}
 
@@ -25,6 +26,7 @@ export class PerfilService {
   }
 
   // TUTOR
+
   cadastrarTutor(formData: FormData): Observable<any> {
     const headers = this.getAuthHeaders();
     return this.http.post(this.tutorUrl, formData, { headers });
@@ -42,10 +44,16 @@ export class PerfilService {
 
   getPetsTutor(): Observable<Pet[]> {
     const headers = this.getAuthHeaders();
-    return this.http.get<Pet[]>(`${environment.apiUrl}/pets/`, { headers });
+    return this.http.get<Pet[]>(this.petsUrl, { headers });
   }
 
   // CUIDADOR
+
+  cadastrarCuidador(formData: FormData): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.post(this.cuidadorUrl, formData, { headers });
+  }
+
   getPerfilCuidador(): Observable<Cuidador> {
     const headers = this.getAuthHeaders();
     return this.http.get<Cuidador>(`${this.cuidadorUrl}me/`, { headers });
