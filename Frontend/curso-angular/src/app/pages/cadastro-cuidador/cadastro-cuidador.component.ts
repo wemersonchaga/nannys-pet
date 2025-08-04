@@ -79,14 +79,13 @@ export class CadastroCuidadorComponent implements OnInit {
   }
 
   carregarPortesAceitos(): void {
-  this.cuidadorService.getPortes().subscribe((data: any[]) => {
-    this.portesDisponiveis = data; // ex: ['Pequeno', 'Medio', 'Grande']
-    const formArray = this.cuidadorForm.get('portes_aceitos') as FormArray;
-    formArray.clear(); // garante que não há duplicação
-    data.forEach(() => formArray.push(this.fb.control(false)));
-  });
-}
-
+    this.cuidadorService.getPortes().subscribe((data: any[]) => {
+      this.portesDisponiveis = data; // ex: ['Pequeno', 'Medio', 'Grande']
+      const formArray = this.cuidadorForm.get('portes_aceitos') as FormArray;
+      formArray.clear(); // garante que não há duplicação
+      data.forEach(() => formArray.push(this.fb.control(false)));
+    });
+  }
 
   buscarEnderecoPorCep(): void {
     const cep = this.cuidadorForm.get('cep')?.value;
@@ -98,6 +97,24 @@ export class CadastroCuidadorComponent implements OnInit {
           estado: endereco.uf,
         });
       });
+    }
+  }
+
+  formatarPreco(): void {
+    let valor = this.cuidadorForm.get('preco_diaria')?.value;
+    if (valor) {
+      // Substitui vírgula por ponto
+      valor = valor.toString().replace(',', '.');
+      // Remove qualquer caractere que não seja número ou ponto
+      valor = valor.replace(/[^0-9.]/g, '');
+      // Converte para número com 2 casas decimais
+      const numero = parseFloat(valor);
+      if (!isNaN(numero)) {
+        const formatado = numero.toFixed(2);
+        this.cuidadorForm.get('preco_diaria')?.setValue(formatado);
+      } else {
+        this.cuidadorForm.get('preco_diaria')?.setValue('');
+      }
     }
   }
 
