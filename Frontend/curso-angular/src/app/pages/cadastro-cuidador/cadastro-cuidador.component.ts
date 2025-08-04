@@ -120,34 +120,46 @@ export class CadastroCuidadorComponent implements OnInit {
 
   onSubmit(): void {
     if (this.cuidadorForm.invalid) return;
-
     this.isSubmitting = true;
     this.errorMessage = '';
-
     const selectedCaracteristicas = this.cuidadorForm.value.caracteristicas
-      .map((v: boolean, i: number) => (v ? this.caracteristicasDisponiveis[i].id : null))
-      .filter((v: number | null) => v !== null);
-
+    .map((v: boolean, i: number) => (v ? this.caracteristicasDisponiveis[i].id : null))
+    .filter((v: number | null) => v !== null);
     const selectedPortes = this.cuidadorForm.value.portes_aceitos
-      .map((v: boolean, i: number) => (v ? this.portesDisponiveis[i].id : null))
-      .filter((v: number | null) => v !== null);
-
-    const cuidadorData = {
-      ...this.cuidadorForm.value,
-      caracteristicas_ids: selectedCaracteristicas,
-      portes_aceitos: selectedPortes,
-    };
-    // Converte preco_diaria para número (float), se fornecido
-    if (cuidadorData.preco_diaria !== null && cuidadorData.preco_diaria !== '') {
-      cuidadorData.preco_diaria = parseFloat(cuidadorData.preco_diaria);
-    } else {
-      cuidadorData.preco_diaria = null;
+    .map((v: boolean, i: number) => (v ? this.portesDisponiveis[i].id : null))
+    .filter((v: number | null) => v !== null);
+    const rawValues = this.cuidadorForm.getRawValue();
+    // ✅ Convertendo para FormData
+    const formData = new FormData();
+    // Campos comuns
+    formData.append('nome', rawValues.nome);
+    formData.append('sobrenome', rawValues.sobrenome);
+    formData.append('cpf', rawValues.cpf);
+    formData.append('email', rawValues.email);
+    formData.append('data_nascimento', rawValues.data_nascimento || '');
+    formData.append('descricao', rawValues.descricao || '');
+    formData.append('telefone', rawValues.telefone);
+    formData.append('cep', rawValues.cep || '');
+    formData.append('estado', rawValues.estado || '');
+    formData.append('cidade', rawValues.cidade || '');
+    formData.append('rua', rawValues.rua);
+    formData.append('numero', rawValues.numero || '');
+    formData.append('instagram', rawValues.instagram || '');
+    // ✅ Formatando preco_diaria
+    const preco = rawValues.preco_diaria?.toString().replace(',', '.');
+    const precoFormatado = parseFloat(preco);
+    if (!isNaN(precoFormatado)) {
+      formData.append('preco_diaria', precoFormatado.toFixed(2));
     }
-
-    delete cuidadorData.caracteristicas;
-    delete cuidadorData.portes_aceitos;
-
-    this.cuidadorService.criarCuidador(cuidadorData).subscribe({
+    // ✅ Arrays
+    selectedCaracteristicas.forEach((id: number) => {
+      formData.append('caracteristicas_ids', id.toString());
+    });
+    selectedPortes.forEach((id: number) => {
+      formData.append('portes_aceitos', id.toString());
+    });
+    // Envia com FormData
+    this.cuidadorService.criarCuidador(formData).subscribe({
       next: () => this.router.navigate(['/inicio']),
       error: (err) => {
         this.errorMessage = 'Erro ao cadastrar cuidador. Tente novamente.';
