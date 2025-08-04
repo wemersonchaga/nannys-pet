@@ -31,16 +31,12 @@
           </div>
         </div>
 
-        <!-- Telefone -->
+        <!-- Telefone e Data de Nascimento -->
         <div class="form-row">
           <div class="form-group">
             <label for="telefone">Telefone</label>
             <input type="text" id="telefone" formControlName="telefone" mask="(00) 00000-0000" required />
           </div>
-        </div>
-
-        <!-- Data de Nascimento -->
-        <div class="form-row">
           <div class="form-group">
             <label for="dataNascimento">Data de Nascimento</label>
             <input type="date" id="dataNascimento" formControlName="data_nascimento" />
@@ -52,6 +48,14 @@
           <div class="form-group">
             <label for="instagram">Instagram</label>
             <input type="text" id="instagram" formControlName="instagram" placeholder="@seuperfil" />
+          </div>
+        </div>
+
+        <!-- Descrição -->
+        <div class="form-row">
+          <div class="form-group full-width">
+            <label for="descricao">Descrição</label>
+            <textarea id="descricao" formControlName="descricao" rows="4" placeholder="Conte um pouco sobre você..."></textarea>
           </div>
         </div>
 
@@ -106,7 +110,28 @@
             </div>
           </div>
         </div>
-        
+
+        <!-- Portes Aceitos -->
+        <div class="form-group">
+          <label>Portes aceitos</label>
+          <div class="checkbox-group" formArrayName="portes">
+            <div *ngFor="let porte of portesDisponiveis; let j = index">
+              <label class="checkbox-label">
+                <input type="checkbox" [formControlName]="j" />
+                {{ porte.nome }}
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Preço por Diária -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="preco_diaria">Preço por Diária (R$)</label>
+            <input type="number" id="preco_diaria" formControlName="preco_diaria" placeholder="Ex: 49.90" step="0.01" min="0" />
+          </div>
+        </div>
+
         <!-- Erro -->
         <div *ngIf="errorMessage" class="error-message">
           {{ errorMessage }}
