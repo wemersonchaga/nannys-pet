@@ -160,12 +160,16 @@ export class CadastroCuidadorComponent implements OnInit {
     });
     // Envia com FormData
     this.cuidadorService.criarCuidador(formData).subscribe({
-      next: () => this.router.navigate(['/inicio']),
-      error: (err) => {
-        this.errorMessage = 'Erro ao cadastrar cuidador. Tente novamente.';
-        this.isSubmitting = false;
-        console.error(err);
-      }
-    });
+      next: (res) => {
+        // ✅ Mensagem de sucesso
+        alert('Cadastro realizado com sucesso!');
+        // ✅ Redirecionar para a página inicial ou dashboard
+        this.router.navigate(['/home']); // ou outra rota, como 'perfil'
+        },
+        error: (err) => {
+          console.error(err);
+          alert('Erro ao cadastrar cuidador.');
+        }
+      });
+    }
   }
-}
