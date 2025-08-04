@@ -4,10 +4,7 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../services/auth.service';
-import { CaracteristicasService } from '../../services/caracteristicas.service';
 import { CuidadorService } from '../../services/cuidador.service';
-import { Caracteristicas } from '../../Caracteristicas';
-import { Cuidador } from '../../Cuidador';
 @Component({
   selector: 'app-cadastro-cuidador',
   templateUrl: './cadastro-cuidador.component.html',
@@ -20,19 +17,21 @@ export class CadastroCuidadorComponent implements OnInit {
   errorMessage = '';
   caracteristicasDisponiveis: any[] = []; // Popule no ngOnInit()
   portesDisponiveis: any[] = []; // Popule no ngOnInit()
+  usuario: any = null;
 
   constructor(
     private fb: FormBuilder,
     private cuidadorService: CuidadorService,
+    private http: HttpClient,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     this.cuidadorForm = this.fb.group({
-      nome: ['', [Validators.required, Validators.maxLength(100)]],
+      nome: [{ value: '', disabled: true }, Validators.required],
       sobrenome: ['', [Validators.required, Validators.maxLength(100)]],
       cpf: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
+      email: [{ value: '', disabled: true }, [Validators.required, Validators.email]],
       data_nascimento: [''],
       descricao: [''],
       telefone: ['', [Validators.required]],
@@ -46,10 +45,30 @@ export class CadastroCuidadorComponent implements OnInit {
       caracteristicas: this.fb.array([]),
       portes_aceitos: this.fb.array([]),
     });
-
+    this.buscarUsuarioLogado();
     this.carregarCaracteristicas();
     this.carregarPortesAceitos();
   }
+
+  buscarUsuarioLogado(): void {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const headers = new HttpHeaders({ Authorization: `Token ${token}` });
+      this.http.get(`${environment.apiUrl}/usuarios/me/`, { headers }).subscribe({
+        next: (res: any) => {
+          this.usuario = res;
+          this.cuidadorForm.patchValue({
+            nome: res.nome,
+            email: res.email
+          });
+        },
+        error: (err) => {
+          console.error('Erro ao buscar usuário:', err);
+        }
+      });
+    }
+  }
+
 
   carregarCaracteristicas(): void {
     this.cuidadorService.getCaracteristicas().subscribe((data: any[]) => {
@@ -60,8 +79,8 @@ export class CadastroCuidadorComponent implements OnInit {
   }
 
   carregarPortesAceitos(): void {
-  this.cuidadorService.getPortes().subscribe((data: string[]) => {
-    this.portesDisponiveis = data; // ex: ['Pequeno', 'medio', 'grande']
+  this.cuidadorService.getPortes().subscribe((data: any[]) => {
+    this.portesDisponiveis = data; // ex: ['Pequeno', 'Medio', 'Grande']
     const formArray = this.cuidadorForm.get('portes_aceitos') as FormArray;
     formArray.clear(); // garante que não há duplicação
     data.forEach(() => formArray.push(this.fb.control(false)));

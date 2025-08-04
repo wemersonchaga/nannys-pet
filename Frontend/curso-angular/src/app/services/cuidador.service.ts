@@ -4,7 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Cuidador } from '../Cuidador';
 import { Caracteristicas } from '../Caracteristicas';
 import { environment } from '../../environments/environment';
-import { Porte } from '../Cuidador'; // ou ajuste o caminho conforme onde está definido o type
+import { Porte } from '../Porte'; // ou ajuste o caminho conforme onde está definido o type
 
 
 @Injectable({

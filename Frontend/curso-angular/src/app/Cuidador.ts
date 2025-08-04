@@ -1,6 +1,6 @@
 import { Caracteristicas } from "./Caracteristicas";
 // Tipagem para os portes aceitos
-export type Porte = 'Pequeno' | 'Medio' | 'Grande';
+import { Porte } from "./Porte";
 
 export interface Cuidador {
   id: number;
@@ -21,7 +21,7 @@ export interface Cuidador {
   caracteristicas_ids: number[];
   caracteristicas: Caracteristicas[]; // Objetos detalhados
   preco_diaria?: string | null;
-  portes_aceitos?: Porte[]; // Agora com os valores fixos
+  portes_aceitos: Porte[]; // Agora com os valores fixos
   media_avaliacoes?: string;
   total_avaliacoes?: string;
   avaliacoes_recentes?: string;
