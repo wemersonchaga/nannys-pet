@@ -137,6 +137,12 @@ export class CadastroCuidadorComponent implements OnInit {
       caracteristicas_ids: selectedCaracteristicas,
       portes_aceitos: selectedPortes,
     };
+    // Converte preco_diaria para número (float), se fornecido
+    if (cuidadorData.preco_diaria !== null && cuidadorData.preco_diaria !== '') {
+      cuidadorData.preco_diaria = parseFloat(cuidadorData.preco_diaria);
+    } else {
+      cuidadorData.preco_diaria = null;
+    }
 
     delete cuidadorData.caracteristicas;
     delete cuidadorData.portes_aceitos;
