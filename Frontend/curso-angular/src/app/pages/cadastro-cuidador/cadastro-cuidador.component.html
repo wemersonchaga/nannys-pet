@@ -23,8 +23,9 @@
         <div class="form-row">
           <div class="form-group">
             <label for="cpf">CPF</label>
-            <input type="text" id="cpf" formControlName="cpf" mask="000.000.000-00" required />
+            <input type="text" id="cpf" formControlName="cpf" mask="000.000.000-00" placeholder="000.000.000-00" required />
           </div>
+          
           <div class="form-group">
             <label for="email">Email</label>
             <input type="email" id="email" formControlName="email" />
@@ -35,7 +36,7 @@
         <div class="form-row">
           <div class="form-group">
             <label for="telefone">Telefone</label>
-            <input type="text" id="telefone" formControlName="telefone" mask="(00) 00000-0000" required />
+            <input type="text" id="telefone" formControlName="telefone" mask="(00) 00000-0000" placeholder="(00) 00000-0000"required />
           </div>
           <div class="form-group">
             <label for="dataNascimento">Data de Nascimento</label>
@@ -68,7 +69,8 @@
               id="cep"
               formControlName="cep"
               (blur)="buscarEnderecoPorCep()"
-              maxlength="8"
+              maxlength="9"
+              mask="00000-000"
               placeholder="Digite o CEP"
             />
           </div>
@@ -114,7 +116,7 @@
         <!-- Portes Aceitos -->
         <div class="form-group">
           <label>Portes aceitos</label>
-          <div class="checkbox-group" formArrayName="portes">
+          <div class="checkbox-group" formArrayName="portes_aceitos">
             <div *ngFor="let porte of portesDisponiveis; let j = index">
               <label class="checkbox-label">
                 <input type="checkbox" [formControlName]="j" />

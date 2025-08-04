@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { NgxMaskModule } from 'ngx-mask';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
@@ -19,8 +20,6 @@ import { TwoWayBindingComponent } from './components/two-way-binding/two-way-bin
 import { HomeComponent } from './pages/home/home.component';
 import { CadastroTutorComponent } from './pages/cadastro-tutor/cadastro-tutor.component';
 import { CadastroFotoComponent } from './components/cadastro-foto/cadastro-foto.component';
-
-
 import { BuscarCuidadorComponent } from './pages/buscar-cuidador/buscar-cuidador.component';
 import { CadastroCuidadorComponent } from './pages/cadastro-cuidador/cadastro-cuidador.component';
 import { LoginComponent } from './login/login.component';
@@ -32,7 +31,6 @@ import { EditarPerfilCuidadorComponent } from './pages/editar-perfil-cuidador/ed
 import { EscolherPerfilComponent } from './pages/escolher-perfil/escolher-perfil.component';
 import { CadastroPetComponent } from './pages/cadastro-pet/cadastro-pet.component';
 import { DetalhesPetComponent } from './pages/detalhes-pet/detalhes-pet.component';
-
 
 @NgModule({
   declarations: [
@@ -60,14 +58,14 @@ import { DetalhesPetComponent } from './pages/detalhes-pet/detalhes-pet.componen
     EscolherPerfilComponent,
     CadastroPetComponent,
     DetalhesPetComponent,
-
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    NgxMaskModule.forRoot() // <-- IMPORTANTE!
   ],
   providers: [
     AuthService,
