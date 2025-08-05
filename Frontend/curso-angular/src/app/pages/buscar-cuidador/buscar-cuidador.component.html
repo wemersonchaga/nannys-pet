@@ -1,55 +1,93 @@
-<div class="filtro">
-  <h2>Filtrar Cuidadores</h2>
-  <form *ngIf="caracteristicasForm" [formGroup]="caracteristicasForm" (ngSubmit)="submit()">
+<div class="pagina-busca">
 
-    <!-- Campo CEP -->
-    <div class="form-group">
-      <label for="cep">CEP:</label>
-      <input id="cep" type="text" formControlName="cep" placeholder="Digite o CEP" />
-    </div>
+  <div class="container-principal">
+    <header class="busca-header">
+      <h1>Encontre o cuidador ideal</h1>
+      <p>Busque por cuidadores em sua região e filtre por suas necessidades.</p>
+      <div class="campo-busca">
+        <i class="material-icons">location_on</i> <input type="text" placeholder="Digite sua cidade, bairro ou CEP...">
+      </div>
+    </header>
 
-    <!-- Checkbox Disponível -->
-    <div class="form-group">
-      <label>
-        <input type="checkbox" formControlName="disponivel" />
-        Disponível agora
-      </label>
-    </div>
+    <div class="conteudo-principal">
 
-    <!-- Checkbox Características -->
-    <div formArrayName="caracteristicas" class="caracteristicas-lista">
-      <label>Características:</label>
-      <div *ngFor="let caract of caracteristicasDisponiveis; let i = index">
-        <label>
-          <input type="checkbox"
-                 [formControlName]="i"
-                 (change)="toggleCaracteristica(caract.id)" />
+      <aside class="coluna-filtros">
+        <div class="caixa-filtro">
+          <h3>Filtros</h3>
+          <form *ngIf="caracteristicasForm" [formGroup]="caracteristicasForm" (ngSubmit)="submit()">
+
+            <div class="grupo-filtro">
+              <h4>Características</h4>
+              <div formArrayName="caracteristicas" class="lista-checkbox">
+                <div *ngFor="let caract of caracteristicasDisponiveis; let i = index" class="opcao-checkbox">
+                  <input type="checkbox" [id]="'caract-' + i" [formControlName]="i" (change)="toggleCaracteristica(caract.id)">
+                  <label [for]="'caract-' + i">{{ caract.nome }}</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="grupo-filtro">
+              <h4>Porte do Cão</h4>
+              <div class="lista-checkbox">
+                <div class="opcao-checkbox">
+                  <input type="checkbox" id="porte-pequeno">
+                  <label for="porte-pequeno">Pequeno</label>
+                </div>
+                <div class="opcao-checkbox">
+                  <input type="checkbox" id="porte-medio">
+                  <label for="porte-medio">Médio</label>
+                </div>
+                <div class="opcao-checkbox">
+                  <input type="checkbox" id="porte-grande">
+                  <label for="porte-grande">Grande</label>
+                </div>
+              </div>
+            </div>
+
+            <button class="botao-aplicar" type="submit">Aplicar Filtros</button>
+          </form>
+        </div>
+      </aside>
+
+      <main class="coluna-resultados">
+        <div class="resultados-header">
+          <h2>Cuidadores Disponíveis</h2>
+          <span class="total-resultados">{{ cuidadoresFiltrados.length }} resultados</span>
+        </div>
+
+        <div *ngIf="submitClicado && cuidadoresFiltrados.length === 0" class="nenhum-resultado">
+          <p>Nenhum cuidador encontrado com esses filtros.</p>
+        </div>
+
+        <div class="lista-cuidadores">
+  <div *ngFor="let cuidador of cuidadoresFiltrados" class="cuidador-card">
+    <img [src]="cuidador.foto_perfil || 'https://via.placeholder.com/80'" alt="Foto de {{ cuidador.nome }}" class="cuidador-avatar">
+    
+    <div class="cuidador-info">
+      <div class="cuidador-info-header">
+        <h3 class="cuidador-nome">{{ cuidador.nome }} {{ cuidador.sobrenome }}</h3>
+        <div class="cuidador-rating">
+          <i class="material-icons">star</i>
+          <strong>{{ cuidador.media_avaliacoes || 'N/A' }}</strong>
+          <span>({{ cuidador.total_avaliacoes || 0 }})</span>
+        </div>
+      </div>
+      <p class="cuidador-localizacao">{{ cuidador.cidade }}</p>
+      
+      <p class="cuidador-descricao">{{ cuidador.descricao || 'Cuidador ainda não adicionou uma descrição.' }}</p>
+      
+      <div class="cuidador-tags" *ngIf="cuidador.caracteristicas && cuidador.caracteristicas.length">
+        <span *ngFor="let caract of cuidador.caracteristicas" class="tag">
           {{ caract.nome }}
-        </label>
+        </span>
       </div>
     </div>
-
-    <button type="submit">Buscar</button>
-  </form>
-</div>
-
-<!-- Mensagem se nenhum cuidador encontrado -->
-<div *ngIf="submitClicado && cuidadoresFiltrados.length === 0">
-  <p>Nenhum cuidador encontrado com esses filtros.</p>
-</div>
-
-<!-- Lista de cuidadores filtrados -->
-<div *ngIf="cuidadoresFiltrados.length > 0">
-  <h2>Resultados:</h2>
-  <div *ngFor="let cuidador of cuidadoresFiltrados" class="cuidador-card">
-    <h3>{{ cuidador.nome }} {{ cuidador.sobrenome }}</h3>
-    <p><strong>Telefone:</strong> {{ cuidador.telefone }}</p>
-    <p><strong>Endereço:</strong> {{ cuidador.cidade }}</p>
-    <p *ngIf="cuidador.caracteristicas && cuidador.caracteristicas.length">
-      <strong>Características:</strong>
-      <span *ngFor="let caract of cuidador.caracteristicas; let last = last">
-        {{ caract.nome }}<span *ngIf="!last">, </span>
-      </span>
-    </p>
   </div>
 </div>
+      </main>
+
+    </div>
+  </div>
+</div>
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">

@@ -1,10 +1,6 @@
 <div class="perfil-container" *ngIf="perfilTipo !== 'nenhum'; else escolhaPerfil">
   <h2>Bem-vindo(a), {{ userData?.nome }} {{ userData?.sobrenome }}</h2>
   
-  <!-- Debug: tipo de perfil identificado -->
-  <div style="background-color: #fffae6; padding: 10px; border: 1px solid #ffcc00; margin-bottom: 20px;">
-    <strong>DEBUG:</strong> Tipo de perfil identificado: {{ perfilTipo }}
-  </div>
 
   <!-- Imagem de perfil (Tutor ou Cuidador) -->
   <div class="text-center mb-3">
@@ -17,8 +13,8 @@
 
   <!-- Exibe informações do Tutor -->
   <div *ngIf="perfilTipo === 'tutor'" class="perfil-bloco">
-    <p><strong>Email:</strong> {{ userData?.email }}</p>
-    <p><strong>Telefone:</strong> {{ userData?.telefone }}</p>
+    <p><i class="fas fa-envelope"></i> {{ userData?.email }}</p>
+    <p><i class="fas fa-phone"></i> {{ userData?.telefone }}</p>
 
     <div class="text-center mt-4">
       <a routerLink="/pets/cadastrar" class="btn btn-primary">+ Novo Pet</a>
@@ -45,24 +41,28 @@
 
   <!-- Exibe informações do Cuidador -->
   <div *ngIf="perfilTipo === 'cuidador'" class="perfil-bloco">
-  <p><strong>Email:</strong> {{ userData.email }}</p>
+    <p><i class="fas fa-envelope"></i> {{ userData?.email }}</p>
     <p><strong>Data de nascimento:</strong> {{ userData?.data_nascimento || 'Não informado' }}</p>
     <p><strong>Cidade:</strong> {{ userData?.cidade || 'Não informado' }}</p>
     <p><strong>Estado:</strong> {{ userData?.estado || 'Não informado' }}</p>
-    <p><strong>Descrição:</strong></p>
-    <p>{{ userData?.descricao || 'Nenhuma descrição disponível.' }}</p>
-
+    
     <p><strong>Instagram:</strong> 
       <a *ngIf="userData?.instagram" href="https://instagram.com/{{ userData.instagram }}" target="_blank" rel="noopener noreferrer">
         {{ userData.instagram }}
       </a>
       <span *ngIf="!userData?.instagram">Não informado</span>
     </p>
+    
+    <h2 class="text-xl font-bold mb-2">Ambiente de Hospedagem</h2>
 
-    <p><strong>Características:</strong></p>
-    <ul>
-      <li *ngFor="let c of userData?.caracteristicas">{{ c.nome }}</li>
-    </ul>
+    <p><strong>Descrição:</strong> {{ userData.descricao || 'Não informada' }}</p>
+    <p><strong>Preço por diária:</strong> {{ userData.preco_diaria | currency:'BRL' }}</p>
+
+    <p><strong>Características:</strong> {{ caracteristicasCuidadorFormatadas || 'Nenhuma característica cadastrada' }}</p>
+
+    <p *ngIf="portesAceitosFormatados">
+      <strong>Portes aceitos:</strong> {{ portesAceitosFormatados }}
+    </p>
 
     <p><strong>Imagens do Ambiente:</strong></p>
     <div class="d-flex flex-wrap gap-2 mb-3">
@@ -75,10 +75,6 @@
 
     <p><strong>Média das avaliações:</strong> {{ userData?.media_avaliacoes || 'Sem avaliações' }}</p>
     <p><strong>Total de avaliações:</strong> {{ userData?.total_avaliacoes || 0 }}</p>
-
-    <p><strong>Preço por diária:</strong> R$ {{ userData?.preco_diaria || 'Não informado' }}</p>
-
-    <p><strong>Portes aceitos:</strong> {{ portesAceitosFormatados }}</p>
 
 
     <button routerLink="/editar-perfil-cuidador" class="btn mt-4">Editar Perfil de Cuidador</button>
