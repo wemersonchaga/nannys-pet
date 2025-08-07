@@ -170,6 +170,14 @@
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
 }
 
+.cuidador-card a {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  height: 100%;
+}
+
 .cuidador-avatar {
   width: 80px;
   height: 80px;
