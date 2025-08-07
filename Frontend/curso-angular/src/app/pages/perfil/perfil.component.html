@@ -1,8 +1,7 @@
 <div class="perfil-container" *ngIf="perfilTipo !== 'nenhum'; else escolhaPerfil">
   <h2>Bem-vindo(a), {{ userData?.nome }} {{ userData?.sobrenome }}</h2>
-  
 
-  <!-- Imagem de perfil (Tutor ou Cuidador) -->
+  <!-- Imagem de perfil -->
   <div class="text-center mb-3">
     <img 
       [src]="userData?.foto_perfil || 'https://nannys-backend.onrender.com/media/defaults/avatar_padrao.png'" 
@@ -14,10 +13,23 @@
   <!-- Exibe informações do Tutor -->
   <div *ngIf="perfilTipo === 'tutor'" class="perfil-bloco">
     <p><i class="fas fa-envelope"></i> {{ userData?.email }}</p>
-    <p><i class="fas fa-phone"></i> {{ userData?.telefone }}</p>
 
-    <div class="text-center mt-4">
-      <a routerLink="/pets/cadastrar" class="btn btn-primary">+ Novo Pet</a>
+    <p *ngIf="userData?.data_nascimento; else nascimentoNaoInformado">
+      <strong>Data de nascimento:</strong> {{ userData.data_nascimento | date:'dd/MM/yyyy' }}
+    </p>
+    <p *ngIf="userData?.data_nascimento">
+      <strong>Idade:</strong> {{ calcularIdade(userData.data_nascimento) }} anos
+    </p>
+    <ng-template #nascimentoNaoInformado>
+      <p><strong>Data de nascimento:</strong> Não informada</p>
+    </ng-template>
+
+    <p><strong>CPF:</strong> {{ userData?.cpf }}</p>
+
+    <!-- Botões lado a lado -->
+    <div class="d-flex gap-3 justify-content-center mt-4">
+      <a routerLink="/pets/cadastrar" class="btn btn-primary flex-fill">+ Novo Pet</a>
+      <button routerLink="/editar-perfil-tutor" class="btn btn-outline-secondary flex-fill">Editar Perfil de Tutor</button>
     </div>
 
     <!-- Lista de pets cadastrados -->
@@ -33,10 +45,8 @@
 
     <!-- Caso não tenha pets -->
     <ng-template #nenhumPet>
-      <p class="text-muted mt-2">Você ainda não cadastrou nenhum pet.</p>
+      <p class="text-muted mt-2 text-center">Você ainda não cadastrou nenhum pet.</p>
     </ng-template>
-
-    <button routerLink="/editar-perfil-tutor" class="btn mt-4">Editar Perfil de Tutor</button>
   </div>
 
   <!-- Exibe informações do Cuidador -->
@@ -45,14 +55,14 @@
     <p><strong>Data de nascimento:</strong> {{ userData?.data_nascimento || 'Não informado' }}</p>
     <p><strong>Cidade:</strong> {{ userData?.cidade || 'Não informado' }}</p>
     <p><strong>Estado:</strong> {{ userData?.estado || 'Não informado' }}</p>
-    
+
     <p><strong>Instagram:</strong> 
       <a *ngIf="userData?.instagram" href="https://instagram.com/{{ userData.instagram }}" target="_blank" rel="noopener noreferrer">
         {{ userData.instagram }}
       </a>
       <span *ngIf="!userData?.instagram">Não informado</span>
     </p>
-    
+
     <h2 class="text-xl font-bold mb-2">Ambiente de Hospedagem</h2>
 
     <p><strong>Descrição:</strong> {{ userData.descricao || 'Não informada' }}</p>
@@ -76,14 +86,13 @@
     <p><strong>Média das avaliações:</strong> {{ userData?.media_avaliacoes || 'Sem avaliações' }}</p>
     <p><strong>Total de avaliações:</strong> {{ userData?.total_avaliacoes || 0 }}</p>
 
-
     <button routerLink="/editar-perfil-cuidador" class="btn mt-4">Editar Perfil de Cuidador</button>
   </div>
 </div>
 
 <!-- Mensagem de redirecionamento -->
 <ng-template #escolhaPerfil>
-  <div class="perfil-container">
+  <div class="perfil-container text-center">
     <h2>Perfil não encontrado</h2>
     <p>Você ainda não criou um perfil como tutor ou cuidador.</p>
     <a routerLink="/escolher-perfil" class="btn btn-primary">Criar meu perfil</a>

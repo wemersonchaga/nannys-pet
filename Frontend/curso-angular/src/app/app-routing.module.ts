@@ -14,6 +14,7 @@ import { AuthGuard } from './services/auth.service';
 import { EditarPerfilTutorComponent } from './pages/editar-perfil-tutor/editar-perfil-tutor.component';
 import { EditarPerfilCuidadorComponent } from './pages/editar-perfil-cuidador/editar-perfil-cuidador.component';
 import { DetalhesPetComponent } from './pages/detalhes-pet/detalhes-pet.component';
+import { DetalhesCuidadorComponent } from './pages/detalhes-cuidador/detalhes-cuidador.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -22,7 +23,7 @@ const routes: Routes = [
   { path: 'editar-perfil-tutor', component: EditarPerfilTutorComponent },
   { path: 'pets/cadastrar', component: CadastroPetComponent },
   { path: 'pets/:id', component: DetalhesPetComponent },
-  { path: 'editar-perfil-cuidador', component: EditarPerfilCuidadorComponent },
+  { path: 'cuidadores/:id', component: DetalhesCuidadorComponent },
   { path: 'escolher-perfil', component: EscolherPerfilComponent },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'perfil', component: PerfilComponent, canActivate: [AuthGuard] },

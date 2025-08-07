@@ -1,0 +1,23 @@
+.detalhes-cuidador {
+  max-width: 600px;
+  margin: auto;
+  padding: 2rem;
+  background-color: #fafafa;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.detalhes-cuidador img {
+  border-radius: 50%;
+  margin-bottom: 1rem;
+}
+
+.detalhes-cuidador h2 {
+  margin-bottom: 1rem;
+}
+
+.detalhes-cuidador ul {
+  list-style: none;
+  padding: 0;
+}

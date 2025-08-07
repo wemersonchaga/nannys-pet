@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PerfilService } from '../../services/perfil.service';
-import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-editar-perfil-tutor',
@@ -12,22 +11,20 @@ export class EditarPerfilTutorComponent implements OnInit {
   tutorForm!: FormGroup;
   sucesso = false;
   erro = '';
+  idade: number | null = null;
 
   constructor(
     private fb: FormBuilder,
-    private perfilService: PerfilService,
-    private authService: AuthService
+    private perfilService: PerfilService
   ) {}
 
   ngOnInit(): void {
     this.tutorForm = this.fb.group({
       nome: ['', Validators.required],
-      telefone: ['', Validators.required],
+      sobrenome: ['', Validators.required],
       cpf: ['', Validators.required],
-      cep: ['', Validators.required],
-      endereco: ['', Validators.required],
-      cidade: ['', Validators.required],
-      estado: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      data_nascimento: ['']
     });
 
     this.carregarDadosTutor();
@@ -36,7 +33,17 @@ export class EditarPerfilTutorComponent implements OnInit {
   carregarDadosTutor(): void {
     this.perfilService.getPerfilTutor().subscribe({
       next: (tutor) => {
-        this.tutorForm.patchValue(tutor);
+        this.tutorForm.patchValue({
+          nome: tutor.nome,
+          sobrenome: tutor.sobrenome,
+          cpf: tutor.cpf,
+          email: tutor.email,
+          data_nascimento: tutor.data_nascimento
+        });
+
+        if (tutor.data_nascimento) {
+          this.idade = this.calcularIdade(tutor.data_nascimento);
+        }
       },
       error: () => {
         this.erro = 'Erro ao carregar dados do perfil.';
@@ -57,5 +64,18 @@ export class EditarPerfilTutorComponent implements OnInit {
         this.erro = 'Erro ao salvar alterações.';
       }
     });
+  }
+
+  calcularIdade(dataNascimento: string | Date): number {
+    const hoje = new Date();
+    const nascimento = new Date(dataNascimento);
+    let idade = hoje.getFullYear() - nascimento.getFullYear();
+    const m = hoje.getMonth() - nascimento.getMonth();
+
+    if (m < 0 || (m === 0 && hoje.getDate() < nascimento.getDate())) {
+      idade--;
+    }
+
+    return idade;
   }
 }

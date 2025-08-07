@@ -1,39 +1,103 @@
-.editar-perfil {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
+.editar-perfil-tutor {
+  max-width: 480px;
+  margin: 2rem auto;
+  padding: 1.5rem 2rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.editar-perfil label {
+.editar-perfil-tutor h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.editar-perfil-tutor form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.editar-perfil-tutor label {
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 0.4rem;
   display: block;
-  margin-top: 10px;
-  font-weight: bold;
 }
 
-.editar-perfil input {
-  width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.editar-perfil-tutor input[type="text"],
+.editar-perfil-tutor input[type="email"],
+.editar-perfil-tutor input[type="date"] {
+  padding: 0.5rem 0.75rem;
+  border: 1.8px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
 }
 
-button {
-  background-color: #2b7a78;
+.editar-perfil-tutor input:focus {
+  border-color: #4a90e2;
+  outline: none;
+  box-shadow: 0 0 6px rgba(74,144,226,0.5);
+}
+
+.editar-perfil-tutor .idade-exibida {
+  font-weight: 600;
+  color: #666;
+  text-align: center;
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+}
+
+.editar-perfil-tutor button {
+  padding: 0.75rem;
+  background-color: #4a90e2;
   color: white;
-  padding: 10px 15px;
+  font-size: 1.1rem;
+  font-weight: 700;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.editar-perfil-tutor button:disabled {
+  background-color: #9bbce9;
+  cursor: not-allowed;
+}
+
+.editar-perfil-tutor button:not(:disabled):hover {
+  background-color: #357abd;
 }
 
 .sucesso {
-  color: green;
-  margin-top: 10px;
+  margin-top: 1rem;
+  color: #2d8a4a;
+  font-weight: 600;
+  text-align: center;
 }
 
 .erro {
-  color: red;
-  margin-top: 10px;
+  margin-top: 1rem;
+  color: #c0392b;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Responsividade */
+@media (max-width: 520px) {
+  .editar-perfil-tutor {
+    margin: 1rem;
+    padding: 1rem;
+  }
+
+  .editar-perfil-tutor h2 {
+    font-size: 1.5rem;
+  }
+
+  .editar-perfil-tutor button {
+    font-size: 1rem;
+  }
 }

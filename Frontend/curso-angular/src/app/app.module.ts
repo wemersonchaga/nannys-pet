@@ -31,6 +31,7 @@ import { EditarPerfilCuidadorComponent } from './pages/editar-perfil-cuidador/ed
 import { EscolherPerfilComponent } from './pages/escolher-perfil/escolher-perfil.component';
 import { CadastroPetComponent } from './pages/cadastro-pet/cadastro-pet.component';
 import { DetalhesPetComponent } from './pages/detalhes-pet/detalhes-pet.component';
+import { DetalhesCuidadorComponent } from './pages/detalhes-cuidador/detalhes-cuidador.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { DetalhesPetComponent } from './pages/detalhes-pet/detalhes-pet.componen
     EscolherPerfilComponent,
     CadastroPetComponent,
     DetalhesPetComponent,
+    DetalhesCuidadorComponent,
   ],
   imports: [
     BrowserModule,

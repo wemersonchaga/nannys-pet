@@ -1,0 +1,30 @@
+<div *ngIf="cuidador" class="detalhes-cuidador">
+  <h2>{{ cuidador.nome }} {{ cuidador.sobrenome }}</h2>
+  <img [src]="cuidador.foto_perfil || 'https://via.placeholder.com/150'" alt="Foto do cuidador" width="150" />
+
+  <p><strong>Descrição:</strong> {{ cuidador.descricao || 'Não informada' }}</p>
+  <p><strong>Cidade:</strong> {{ cuidador.cidade || 'Não informada' }}</p>
+  <p><strong>Instagram:</strong> 
+    <a *ngIf="cuidador.instagram" [href]="cuidador.instagram" target="_blank">
+      {{ cuidador.instagram }}
+    </a>
+    <span *ngIf="!cuidador.instagram">Não informado</span>
+  </p>
+  <p><strong>Preço Diária:</strong> {{ cuidador.preco_diaria ? ('R$ ' + cuidador.preco_diaria) : 'Não informado' }}</p>
+  
+  <div *ngIf="cuidador.caracteristicas?.length">
+    <h4>Características:</h4>
+    <ul>
+      <li *ngFor="let caract of cuidador.caracteristicas">{{ caract.nome }}</li>
+    </ul>
+  </div>
+
+  <div *ngIf="cuidador.portes_aceitos?.length">
+    <h4>Portes Aceitos:</h4>
+    <ul>
+      <li *ngFor="let porte of cuidador.portes_aceitos">
+        {{ porte === 1 ? 'Pequeno' : porte === 2 ? 'Médio' : porte === 3 ? 'Grande' : 'Outro' }}
+      </li>
+    </ul>
+  </div>
+</div>

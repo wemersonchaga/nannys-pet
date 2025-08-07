@@ -1,27 +1,25 @@
-<div class="editar-perfil">
+<div class="editar-perfil-tutor">
   <h2>Editar Perfil do Tutor</h2>
 
   <form [formGroup]="tutorForm" (ngSubmit)="salvar()">
-    <label>Nome:</label>
-    <input formControlName="nome" />
+    <label for="nome">Nome:</label>
+    <input id="nome" formControlName="nome" type="text" />
 
-    <label>Telefone:</label>
-    <input formControlName="telefone" />
+    <label for="sobrenome">Sobrenome:</label>
+    <input id="sobrenome" formControlName="sobrenome" type="text" />
 
-    <label>CPF:</label>
-    <input formControlName="cpf" />
+    <label for="cpf">CPF:</label>
+    <input id="cpf" formControlName="cpf" type="text" />
 
-    <label>CEP:</label>
-    <input formControlName="cep" />
+    <label for="email">Email:</label>
+    <input id="email" formControlName="email" type="email" />
 
-    <label>Endereço:</label>
-    <input formControlName="endereco" />
+    <label for="data_nascimento">Data de Nascimento:</label>
+    <input id="data_nascimento" formControlName="data_nascimento" type="date" />
 
-    <label>Cidade:</label>
-    <input formControlName="cidade" />
-
-    <label>Estado:</label>
-    <input formControlName="estado" />
+    <div *ngIf="idade !== null" class="idade-exibida">
+      <p>Idade: {{ idade }} anos</p>
+    </div>
 
     <button type="submit" [disabled]="tutorForm.invalid">Salvar Alterações</button>
   </form>

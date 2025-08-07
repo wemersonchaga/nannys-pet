@@ -60,32 +60,30 @@
         </div>
 
         <div class="lista-cuidadores">
-  <div *ngFor="let cuidador of cuidadoresFiltrados" class="cuidador-card">
-    <img [src]="cuidador.foto_perfil || 'https://via.placeholder.com/80'" alt="Foto de {{ cuidador.nome }}" class="cuidador-avatar">
-    
-    <div class="cuidador-info">
-      <div class="cuidador-info-header">
-        <h3 class="cuidador-nome">{{ cuidador.nome }} {{ cuidador.sobrenome }}</h3>
-        <div class="cuidador-rating">
-          <i class="material-icons">star</i>
-          <strong>{{ cuidador.media_avaliacoes || 'N/A' }}</strong>
-          <span>({{ cuidador.total_avaliacoes || 0 }})</span>
+          <div *ngFor="let cuidador of cuidadoresFiltrados" class="cuidador-card">
+            <a [routerLink]="['/cuidadores', cuidador.id]">
+              <img [src]="cuidador.foto_perfil || 'https://via.placeholder.com/80'" alt="Foto de {{ cuidador.nome }}" class="cuidador-avatar">
+              <div class="cuidador-info">
+                <div class="cuidador-info-header">
+                  <h3 class="cuidador-nome">{{ cuidador.nome }} {{ cuidador.sobrenome }}</h3>
+                  <div class="cuidador-rating">
+                    <i class="material-icons">star</i>
+                    <strong>{{ cuidador.media_avaliacoes || 'N/A' }}</strong>
+                    <span>({{ cuidador.total_avaliacoes || 0 }})</span>
+                  </div>
+                </div>
+                <p class="cuidador-localizacao">{{ cuidador.cidade }}</p>
+                <p class="cuidador-descricao">{{ cuidador.descricao || 'Cuidador ainda não adicionou uma descrição.' }}</p>
+                <div class="cuidador-tags" *ngIf="cuidador.caracteristicas && cuidador.caracteristicas.length">
+                  <span *ngFor="let caract of cuidador.caracteristicas" class="tag">
+                    {{ caract.nome }}
+                  </span>
+                </div>
+              </div>
+            </a>
+          </div>
         </div>
-      </div>
-      <p class="cuidador-localizacao">{{ cuidador.cidade }}</p>
-      
-      <p class="cuidador-descricao">{{ cuidador.descricao || 'Cuidador ainda não adicionou uma descrição.' }}</p>
-      
-      <div class="cuidador-tags" *ngIf="cuidador.caracteristicas && cuidador.caracteristicas.length">
-        <span *ngFor="let caract of cuidador.caracteristicas" class="tag">
-          {{ caract.nome }}
-        </span>
-      </div>
-    </div>
-  </div>
-</div>
       </main>
-
     </div>
   </div>
 </div>
