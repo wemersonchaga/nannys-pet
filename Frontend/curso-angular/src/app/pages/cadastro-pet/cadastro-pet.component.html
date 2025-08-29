@@ -8,60 +8,61 @@
       <h2>Cadastro de Pet</h2>
       <p class="subtitle">Preencha os dados para adicionar seu animal de estimação à plataforma.</p>
 
-      <form>
+      <form [formGroup]="petForm" (ngSubmit)="onSubmit()">
+
         <div class="form-group">
           <label for="nome">Nome do pet</label>
-          <input type="text" id="nome" placeholder="Digite o nome do seu pet">
+          <input type="text" id="nome" formControlName="nome" placeholder="Digite o nome do seu pet" required>
         </div>
 
         <div class="form-row">
           <div class="form-group">
             <label for="especie">Espécie</label>
-            <select id="especie">
-              <option value="cachorro">Cachorro</option>
-              <option value="gato">Gato</option>
+            <select id="especie" formControlName="especie" required>
+              <option value="Cachorro">Cachorro</option>
+              <option value="Gato">Gato</option>
             </select>
           </div>
           <div class="form-group">
             <label for="porte">Porte</label>
-            <select id="porte">
-              <option value="pequeno">Pequeno (até 10kg)</option>
-              <option value="medio">Médio (10kg a 25kg)</option>
-              <option value="grande">Grande (mais de 25kg)</option>
+            <select id="porte" formControlName="porte" required>
+              <option value="pequeno">Pequeno</option>
+              <option value="medio">Médio</option>
+              <option value="grande">Grande</option>
             </select>
           </div>
         </div>
         
         <div class="form-group">
           <label for="raca">Raça</label>
-          <input type="text" id="raca" placeholder="Ex: Bulldog Francês, Siamês">
+          <input type="text" id="raca" formControlName="raca" placeholder="Ex: Bulldog Francês, Siamês">
         </div>
 
         <div class="form-row">
           <div class="form-group">
             <label for="idade">Idade (anos)</label>
-            <input type="number" id="idade" min="0" placeholder="Ex: 2">
+            <input type="number" id="idade" formControlName="idade" min="0" placeholder="Ex: 2" required>
           </div>
           <div class="form-group">
             <label for="genero">Gênero</label>
-            <select id="genero">
-              <option value="macho">Macho</option>
-              <option value="femea">Fêmea</option>
+            <select id="genero" formControlName="genero" required>
+              <option value="Macho">Macho</option>
+              <option value="Fêmea">Fêmea</option>
             </select>
           </div>
         </div>
 
         <div class="form-group">
           <label for="castrado">Castrado</label>
-          <select id="castrado">
-            <option value="true">Sim</option>
-            <option value="false">Não</option>
+          <select id="castrado" formControlName="castrado" required>
+            <option [value]="true">Sim</option>
+            <option [value]="false">Não</option>
           </select>
         </div>
 
         <div class="form-group">
             <label for="observacoes">Observações</label>
-            <textarea id="observacoes" rows="4" placeholder="Alguma informação adicional sobre o pet..."></textarea>
+            <textarea id="observacoes" formControlName="observacoes" rows="4" placeholder="Alguma informação adicional sobre o pet..."></textarea>
         </div>
 
         <div class="form-group">
@@ -70,14 +71,17 @@
             <div class="image-placeholder">
               <span>+</span>
             </div>
-            <input type="file" id="foto-upload" class="file-input-hidden">
+            <input type="file" id="foto-upload" class="file-input-hidden" (change)="onFileSelected($event)">
             <label for="foto-upload" class="upload-button">Fazer upload de foto</label>
           </div>
         </div>
 
-        <button type="submit" class="submit-button">Finalizar cadastro</button>
-
+        <button type="submit" class="submit-button" [disabled]="loading">
+          {{ loading ? 'Enviando...' : 'Finalizar cadastro' }}
+        </button>
       </form>
+      <p *ngIf="mensagemSucesso" class="mensagem-sucesso">{{ mensagemSucesso }}</p>
+      <p *ngIf="mensagemErro" class="mensagem-erro">{{ mensagemErro }}</p>
     </div>
   </div>
 </div>
