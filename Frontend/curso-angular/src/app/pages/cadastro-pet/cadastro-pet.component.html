@@ -31,6 +31,38 @@
             </select>
           </div>
         </div>
+        
+        <div class="form-group">
+          <label for="raca">Raça</label>
+          <input type="text" id="raca" placeholder="Ex: Bulldog Francês, Siamês">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="idade">Idade (anos)</label>
+            <input type="number" id="idade" min="0" placeholder="Ex: 2">
+          </div>
+          <div class="form-group">
+            <label for="genero">Gênero</label>
+            <select id="genero">
+              <option value="macho">Macho</option>
+              <option value="femea">Fêmea</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="castrado">Castrado</label>
+          <select id="castrado">
+            <option value="true">Sim</option>
+            <option value="false">Não</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+            <label for="observacoes">Observações</label>
+            <textarea id="observacoes" rows="4" placeholder="Alguma informação adicional sobre o pet..."></textarea>
+        </div>
 
         <div class="form-group">
           <label>Foto do pet</label>
@@ -46,6 +78,6 @@
         <button type="submit" class="submit-button">Finalizar cadastro</button>
 
       </form>
-      </div>
+    </div>
   </div>
 </div>
