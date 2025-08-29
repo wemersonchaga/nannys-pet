@@ -1,49 +1,51 @@
-<div class="cadastro-pet-container">
-  <h2 class="title">Cadastro de Pet</h2>
-  <form [formGroup]="petForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+<div class="page-container">
+  <div class="card-container">
+    <div class="image-panel">
+      <img src="httpsa://i.imgur.com/gK2n30c.jpg" alt="Cachorro fofo usando um moletom amarelo" />
+    </div>
 
-    <label>Nome:</label>
-    <input formControlName="nome" type="text" required />
+    <div class="form-panel">
+      <h2>Cadastro de Pet</h2>
+      <p class="subtitle">Preencha os dados para adicionar seu animal de estimação à plataforma.</p>
 
-    <label>Espécie:</label>
-    <input formControlName="especie" type="text" required />
+      <form>
+        <div class="form-group">
+          <label for="nome">Nome do pet</label>
+          <input type="text" id="nome" placeholder="Digite o nome do seu pet">
+        </div>
 
-    <label>Raça:</label>
-    <input formControlName="raca" type="text" />
+        <div class="form-row">
+          <div class="form-group">
+            <label for="especie">Espécie</label>
+            <select id="especie">
+              <option value="cachorro">Cachorro</option>
+              <option value="gato">Gato</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="porte">Porte</label>
+            <select id="porte">
+              <option value="pequeno">Pequeno (até 10kg)</option>
+              <option value="medio">Médio (10kg a 25kg)</option>
+              <option value="grande">Grande (mais de 25kg)</option>
+            </select>
+          </div>
+        </div>
 
-    <label>Porte:</label>
-    <select formControlName="porte" required>
-      <option value="pequeno">Pequeno</option>
-      <option value="medio">Médio</option>
-      <option value="grande">Grande</option>
-    </select>
+        <div class="form-group">
+          <label>Foto do pet</label>
+          <div class="file-upload-container">
+            <div class="image-placeholder">
+              <span>+</span>
+            </div>
+            <input type="file" id="foto-upload" class="file-input-hidden">
+            <label for="foto-upload" class="upload-button">Fazer upload de foto</label>
+          </div>
+        </div>
 
-    <label>Idade (em anos):</label>
-    <input formControlName="idade" type="number" min="0" required />
+        <button type="submit" class="submit-button">Finalizar cadastro</button>
 
-    <label>Gênero:</label>
-    <select formControlName="genero" required>
-      <option value="Macho">Macho</option>
-      <option value="Fêmea">Fêmea</option>
-    </select>
-
-    <label>Castrado:</label>
-    <select formControlName="castrado" required>
-      <option [value]="true">Sim</option>
-      <option [value]="false">Não</option>
-    </select>
-
-    <label>Foto:</label>
-    <input type="file" (change)="onFileSelected($event)" />
-
-    <label>Observações:</label>
-    <textarea formControlName="observacoes"></textarea>
-
-    <button type="submit" [disabled]="loading">
-      {{ loading ? 'Enviando...' : 'Cadastrar Pet' }}
-    </button>
-  </form>
-
-  <p *ngIf="mensagemSucesso" class="mensagem-sucesso">{{ mensagemSucesso }}</p>
-  <p *ngIf="mensagemErro" class="mensagem-erro">{{ mensagemErro }}</p>
+      </form>
+      </div>
+  </div>
 </div>

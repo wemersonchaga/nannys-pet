@@ -1,45 +1,183 @@
-.cadastro-pet-container {
-  max-width: 500px;
-  margin: auto;
-  padding: 1rem;
-  background: #f7f7f7;
-  border-radius: 12px;
+/* Importando uma fonte do Google Fonts parecida com a do protótipo */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
+
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f4f7f6; /* Um fundo levemente acinzentado */
+  font-family: 'Nunito', sans-serif;
 }
 
-.title {
-  text-align: center;
-  margin-bottom: 1rem;
+.card-container {
+  display: flex;
+  max-width: 950px;
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  overflow: hidden; /* Garante que os filhos respeitem o border-radius */
+}
+
+/* --- Coluna da Esquerda (Imagem) --- */
+.image-panel {
+  flex: 0 0 45%; /* A coluna da imagem não cresce, tem base de 45% */
+  background-color: #e3f2fd; /* Cor de fundo azul claro */
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-panel img {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 16px;
+  object-fit: cover;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Coluna da Direita (Formulário) --- */
+.form-panel {
+  flex: 1; /* A coluna do formulário ocupa o espaço restante */
+  padding: 40px 50px;
+}
+
+.form-panel h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.form-panel .subtitle {
+  font-size: 16px;
+  color: #7f8c8d;
+  margin-top: 8px;
+  margin-bottom: 30px;
+}
+
+/* --- Estilos dos campos do formulário --- */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-row {
+  display: flex;
+  gap: 20px; /* Espaço entre os campos */
+}
+
+.form-row .form-group {
+  flex: 1; /* Faz com que os campos na mesma linha ocupem o mesmo espaço */
 }
 
 label {
   display: block;
-  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #34495e;
+  margin-bottom: 8px;
 }
 
-input, select, textarea, button {
+input[type="text"],
+select {
   width: 100%;
-  padding: 0.5rem;
-  margin-top: 4px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+  padding: 12px 15px;
+  border: 1px solid #dfe6e9;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: #fdfdfd;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-button {
-  margin-top: 15px;
-  background-color: #4caf50;
-  color: white;
-  font-weight: bold;
+input[type="text"]:focus,
+select:focus {
+  outline: none;
+  border-color: #00acc1; /* Cor de destaque ciano */
+  box-shadow: 0 0 0 3px rgba(0, 172, 193, 0.2);
+}
+
+/* Estilização customizada para o select */
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.7rem center;
+  background-repeat: no-repeat;
+  background-size: 1.2em;
+}
+
+/* --- Estilos para Upload de Foto --- */
+.file-upload-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.image-placeholder {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #ecf0f1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #bdc3c7;
+  font-size: 30px;
+  font-weight: 300;
+}
+
+.file-input-hidden {
+  display: none; /* O input de arquivo real fica invisível */
+}
+
+.upload-button {
+  background-color: transparent;
+  color: #34495e;
+  border: 1px solid #bdc3c7;
+  padding: 10px 20px;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-.mensagem-sucesso {
-  color: green;
-  text-align: center;
-  margin-top: 1rem;
+.upload-button:hover {
+  background-color: #f7f9f9;
 }
 
-.mensagem-erro {
-  color: red;
-  text-align: center;
-  margin-top: 1rem;
+/* --- Botão de Finalizar Cadastro --- */
+.submit-button {
+  width: 100%;
+  padding: 15px;
+  margin-top: 15px;
+  background-color: #00acc1; /* Cor principal ciano/teal */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.submit-button:hover {
+  background-color: #0097a7;
+  transform: translateY(-2px);
+}
+
+/* --- Responsividade para Telas Menores (Celulares) --- */
+@media (max-width: 800px) {
+  .card-container {
+    flex-direction: column;
+    max-width: 90%;
+  }
+
+  .image-panel {
+    display: none; /* Em telas pequenas, a imagem some para focar no formulário */
+  }
+
+  .form-panel {
+    padding: 30px;
+  }
 }
